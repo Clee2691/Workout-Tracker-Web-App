@@ -1,0 +1,22 @@
+.background-banner {
+    /*background-image: url("https://www.jefit.com/wp/wp-content/uploads/2021/11/caucasian-man-practicing-weightlifting-gym-2-scaled-1.jpg");*/
+    background-image: url("../../../public/images/home-banner.jpg");
+    height:100%;
+    min-height: 800px;
+    width: 100%;
+    background-size: cover;
+    overflow: hidden;
+    filter: brightness(50%);
+}
+
+.banner-logo {
+    position: relative;
+}
+
+.home-heading {
+    position: absolute;
+    font-size: 4em;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
