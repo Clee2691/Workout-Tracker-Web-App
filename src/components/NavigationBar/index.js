@@ -10,17 +10,18 @@ const NavigationBar = () => {
                 <div className='collapse navbar-collapse' id="navbarNav">
                     <ul class='navbar-nav me-auto'>
                         <li className='nav-item'>
-                            <Link to='/home' className='nav-link active'>Home</Link>
+                            <Link to='/home' className='nav-link active'>HOME</Link>
                         </li>
                         <li className='nav-item'>
-                            <Link to='/search' className='nav-link'>Search</Link>
+                            <Link to='/search' className='nav-link'>SEARCH</Link>
                         </li>
                         <li className='nav-item'>
-                            <Link to='/profile' className='nav-link'>Profile</Link>
+                            <Link to='/profile' className='nav-link'>PROFILE</Link>
                         </li>
                     </ul>
                     <div className='d-flex'>
-                        <button className='btn btn-outline-success'>Login/Logout</button>
+                        <Link to='/login' className='btn btn-outline-success me-2'>LOGIN</Link>
+                        <Link to='/register' className='btn btn-outline-danger'>SIGN UP</Link>
                     </div>
                 </div>
 
