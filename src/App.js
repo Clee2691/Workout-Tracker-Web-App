@@ -5,8 +5,8 @@ import './vendor/bootswatch/bootstrap.min.css';
 import './components/HomeScreen/home.css'
 
 import HomeScreen from "./components/HomeScreen";
-import NavigationBar from "./components/NavigationBar";
-
+import LoginScreen from "./components/LoginScreen";
+import RegisterScreen from "./components/RegisterScreen";
 
 function App() {
   return (
@@ -14,7 +14,8 @@ function App() {
         <Routes>
           <Route path="/" exact={true} element={<HomeScreen />} />
           <Route path="/home" exact={true} element={<HomeScreen />} />
-          <Route path="/login" exact={true} />
+          <Route path="/login" exact={true} element={<LoginScreen/>}/>
+          <Route path="/register" exact={true} element={<RegisterScreen/>}/>
           <Route path="/search" exact={true} />
           <Route path="/details" exact={true} />
           <Route path="/profile" exact={true} />
