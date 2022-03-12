@@ -26,7 +26,7 @@ const LoginScreen = () => {
                             <Link to='#' className='text-decoration-none' >Forgot Password?</Link>
                         </div>
                         
-                        <div class='d-grid'>
+                        <div className='d-grid'>
                             <button type='submit' className='btn btn-primary'>Login</button>
                         </div>
                 </form>
