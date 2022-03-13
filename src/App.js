@@ -9,6 +9,7 @@ import HomeScreen from "./components/HomeScreen";
 import LoginScreen from "./components/LoginScreen";
 import RegisterScreen from "./components/RegisterScreen";
 import ProfileScreen from "./components/ProfileScreen";
+import RecipeSearch from "./components/RecipeSearch";
 
 function App() {
   return (
@@ -18,7 +19,7 @@ function App() {
           <Route path="/home" exact={true} element={<HomeScreen />} />
           <Route path="/login" exact={true} element={<LoginScreen/>}/>
           <Route path="/register" exact={true} element={<RegisterScreen/>}/>
-          <Route path="/search" exact={true} />
+          <Route path="/search" exact={true} element={<RecipeSearch/>}/>
           <Route path="/details" exact={true} />
           <Route path="/users" exact={true} />
           <Route path='/profile' exact={true} element={<ProfileScreen/>}/>
