@@ -10,7 +10,7 @@ const HomeScreen = () => {
                 <h1 className="home-heading text-center">SwoleMate's Workout Log</h1>
             </div>
             
-            <div class="container">
+            <div className="container">
                 <h1>Recent User Workouts</h1>
             </div>
             

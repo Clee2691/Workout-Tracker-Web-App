@@ -46,7 +46,7 @@ const RegisterScreen = () => {
                             </div>
                         </div>
                         
-                        <div class='d-grid'>
+                        <div className='d-grid'>
                             <button type='submit' className='btn btn-primary mt-2'>Register</button>
                         </div>
                 </form>

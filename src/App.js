@@ -3,10 +3,12 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import './vendor/bootswatch/bootstrap.min.css';
 import './components/HomeScreen/home.css'
+import './components/ProfileScreen/profile.css';
 
 import HomeScreen from "./components/HomeScreen";
 import LoginScreen from "./components/LoginScreen";
 import RegisterScreen from "./components/RegisterScreen";
+import ProfileScreen from "./components/ProfileScreen";
 
 function App() {
   return (
@@ -18,7 +20,8 @@ function App() {
           <Route path="/register" exact={true} element={<RegisterScreen/>}/>
           <Route path="/search" exact={true} />
           <Route path="/details" exact={true} />
-          <Route path="/profile" exact={true} />
+          <Route path="/users" exact={true} />
+          <Route path='/profile' exact={true} element={<ProfileScreen/>}/>
         </Routes>
     </BrowserRouter>
 
