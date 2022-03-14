@@ -15,7 +15,7 @@ const ProfileScreen = () => {
         if (!isEditing) {
             return(
                 <>
-                    <NavigationBar/>
+                    <NavigationBar currScreen={"PROFILE"}/>
                     <div className='container row mt-4 ms-auto me-auto'>
                         <ProfileInfo/>
     

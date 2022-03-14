@@ -4,7 +4,7 @@ import NavigationBar from '../NavigationBar';
 const HomeScreen = () => {
     return (
         <>
-            <NavigationBar/>
+            <NavigationBar currScreen={"HOME"}/>
             <div className="banner-logo">
                 <div className="background-banner"/>
                 <h1 className="home-heading text-center">SwoleMate's Workout Log</h1>
