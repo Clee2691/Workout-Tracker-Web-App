@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 
 import NavigationBar from "../NavigationBar";
@@ -9,6 +9,7 @@ const foodURL = "https://www.themealdb.com/api/json/v1/1/lookup.php?i=";
 const ItemDetails = () => {
   const [selectedItem, setSelected] = useState({});
   const recipeId = useParams();
+  const navigate = useNavigate();
 
   const mergeIngredientList = function () {
     // Mapping ingredients with their measurements from the json response
@@ -56,9 +57,7 @@ const ItemDetails = () => {
       <>
         <NavigationBar />
         <div className="container-fluid mt-2 mb-2">
-          <Link to="/search">
-            <button className="btn btn-primary">Back to List</button>
-          </Link>
+            <button className="btn btn-primary" onClick={() => navigate(-1)}>Back to List</button>
           <h1 className="text-center">LOADING...</h1>
         </div>
       </>
@@ -69,9 +68,9 @@ const ItemDetails = () => {
       <>
         <NavigationBar />
         <div className="container-fluid mt-2 mb-2">
-          <Link to="/search">
-            <button className="btn btn-primary">Back to List</button>
-          </Link>
+          
+          <button className="btn btn-primary" onClick={() => navigate(-1)}>Back to List</button>
+         
 
           <h1 className="text-center">{selectedItem.strMeal}</h1>
           <img
