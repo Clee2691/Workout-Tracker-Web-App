@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const NavigationBar = () => {
+const NavigationBar = ({currScreen}) => {
     let loggedIn = true; // TODO: Change to use state
     return (
         <nav className='navbar navbar-expand-md navbar-dark bg-primary'>
@@ -11,18 +11,18 @@ const NavigationBar = () => {
                 <div className='collapse navbar-collapse' id="navbarNav">
                     <ul className='navbar-nav me-auto'>
                         <li className='nav-item'>
-                            <Link to='/home' className='nav-link active'>HOME</Link>
+                            <Link to='/home' className={`nav-link ${currScreen === 'HOME' ? 'active' : ''}`}>HOME</Link>
                         </li>
                         <li className='nav-item'>
-                            <Link to='/search' className='nav-link'>SEARCH</Link>
+                            <Link to='/search' className={`nav-link ${currScreen === 'SEARCH' ? 'active' : ''}`}>SEARCH</Link>
                         </li>
                         <li className='nav-item'>
-                            <Link to='/users' className='nav-link'>USERS</Link>
+                            <Link to='/users' className={`nav-link ${currScreen === 'USERS' ? 'active' : ''}`}>USERS</Link>
                         </li>
                         {
                             loggedIn &&                         
                                 <li className='nav-item'>
-                                    <Link to='/profile' className='nav-link'>PROFILE</Link>
+                                    <Link to='/profile' className={`nav-link ${currScreen === 'PROFILE' ? 'active' : ''}`}>PROFILE</Link>
                                 </li>
                         }
                     </ul>
