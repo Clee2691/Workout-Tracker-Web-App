@@ -4,22 +4,23 @@ import { useSelector } from "react-redux";
 
 import NavigationBar from "../NavigationBar";
 
-const allItems = (state) => state.allRecipes;
+const allItems = (state) => state.searchPageReducer.allRecipes;
 
 const SearchResults = () => {
   const allRecipes = useSelector(allItems);
+  console.log(allRecipes);
 
   if (!allRecipes.meals) {
     return (
       <>
         <NavigationBar currScreen={"SEARCH"} />
-        <div className="container">
+        <div className="container mt-2">
 
             <h1 className="text-center">
-            Either the page is loading or no search results...
+              No Results founds...
             </h1>
-            <Link to="/search">
-            <button className="btn btn-danger">Try Again</button>
+            <Link to="/search" className="d-flex justify-content-center text-decoration-none">
+              <button className="btn btn-danger btn-lg">Try Again</button>
             </Link>
         </div>
       </>

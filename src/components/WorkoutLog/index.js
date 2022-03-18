@@ -67,7 +67,7 @@ const WorkoutLog = () => {
 
   return (
     <>
-      <NavigationBar active={"Workout-Log"} />
+      <NavigationBar currScreen={"TRACKWORKOUT"} />
       <div className="container">
         <h1 className="text-center mt-2">Workout Tracker</h1>
         <div className="col-md-8 ms-auto me-auto">

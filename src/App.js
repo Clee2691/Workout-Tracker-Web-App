@@ -39,8 +39,8 @@ function App() {
           <Route path="/search/:criteria" element={<SearchResults />} />
           <Route path="/details/:id" element={<ItemDetails />} />
 
-          <Route path="/users" exact={true} />
           <Route path="/profile" exact={true} element={<ProfileScreen />} />
+          <Route path="/profile/:uid" />
 
           <Route path="/workout-log" element={<WorkoutLog/>}/>
         </Routes>
