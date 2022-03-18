@@ -20,7 +20,6 @@ const ItemDetails = () => {
         theKey.includes("Ingredient") &&
         selectedItem[theKey] !== null &&
         selectedItem[theKey].length > 0
-        
       ) {
         ingredientArray.push(selectedItem[theKey]);
       }
@@ -33,7 +32,6 @@ const ItemDetails = () => {
         theKey.includes("Measure") &&
         selectedItem[theKey] !== null &&
         selectedItem[theKey].length > 0
-        
       ) {
         ingredientMeasureArray.push(selectedItem[theKey]);
       }
@@ -57,7 +55,9 @@ const ItemDetails = () => {
       <>
         <NavigationBar />
         <div className="container-fluid mt-2 mb-2">
-            <button className="btn btn-primary" onClick={() => navigate(-1)}>Back to List</button>
+          <button className="btn btn-primary" onClick={() => navigate(-1)}>
+            Back to List
+          </button>
           <h1 className="text-center">LOADING...</h1>
         </div>
       </>
@@ -68,9 +68,9 @@ const ItemDetails = () => {
       <>
         <NavigationBar />
         <div className="container-fluid mt-2 mb-2">
-          
-          <button className="btn btn-primary" onClick={() => navigate(-1)}>Back to List</button>
-         
+          <button className="btn btn-primary" onClick={() => navigate(-1)}>
+            Back to List
+          </button>
 
           <h1 className="text-center">{selectedItem.strMeal}</h1>
           <img
@@ -105,7 +105,7 @@ const ItemDetails = () => {
             <div className="mt-2 mb-2">
               <h2 className="text-center">Directions</h2>
               <p>{selectedItem.strInstructions}</p>
-              {selectedItem.strSource !== "" && (
+              {selectedItem.strSource !== "" && selectedItem.strSource && (
                 <a
                   className="text-decoration-none"
                   href={selectedItem.strSource}
@@ -118,12 +118,17 @@ const ItemDetails = () => {
 
           {/* Item reviews */}
           <div className="container">
-            <h4>User Reviews</h4>
+            <h4 className="text-center">User Reviews</h4>
             <a href="#">User 1</a>
             <p>I love it! Best chicken recipe ever</p>
-            <p>Review 2</p>
-            <p>Review 3</p>
-            <p>Review 4</p>
+            <a href="#">User 2</a>
+            <p>I love it! Best chicken recipe ever</p>
+            
+            <div className="container">
+                <p className="lead">Add Your Own Review: </p>
+                <textarea className="form-control" placeholder="Did you try this recipe?"></textarea>
+                <button className="btn btn-success mt-2">Review</button>
+            </div>
           </div>
         </div>
       </>
