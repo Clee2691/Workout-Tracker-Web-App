@@ -23,15 +23,15 @@ const ProfileWorkouts = () => {
         allWorkouts.map((workout) => {
           return (
             <div key={workout._id}>
-              <div className="card bg-primary mb-2">
+              <div className="card bg-primary mb-2 border">
                 <div className="row g-0">
-                  <div className="col-md-5 col-lg-4">
+                  <div className="col-md-5 col-lg-4 d-flex align-self-center">
                     <img
-                      className="img-fluid rounded-start"
+                      className="img-fluid rounded-circle"
                       src="../images/avatars/profilemale1.jpg"
                     ></img>
                   </div>
-                  <div className="col-md d-flex border">
+                  <div className="col-md d-flex">
                     <div className="card-body align-self-center text-center p-1">
                       <h4 className="card-title">
                         {workout.exName} | {workout.date}
