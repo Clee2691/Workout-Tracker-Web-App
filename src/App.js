@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { createStore } from "redux";
+import { createStore, combineReducers } from "redux";
 import { Provider } from "react-redux";
 
 import "./vendor/bootswatch/bootstrap.min.css";
@@ -18,8 +18,12 @@ import SearchResults from "./components/RecipeSearch/SearchResults";
 
 // Reducer
 import searchPageReducer from "./reducers/searchReducer";
+import workoutLogReducer from "./reducers/workoutLogReducer";
+import WorkoutLog from "./components/WorkoutLog";
 
-const store = createStore(searchPageReducer);
+const reducers = combineReducers({searchPageReducer, workoutLogReducer})
+
+const store = createStore(reducers);
 
 function App() {
   return (
@@ -37,6 +41,8 @@ function App() {
 
           <Route path="/users" exact={true} />
           <Route path="/profile" exact={true} element={<ProfileScreen />} />
+
+          <Route path="/workout-log" element={<WorkoutLog/>}/>
         </Routes>
       </BrowserRouter>
     </Provider>
