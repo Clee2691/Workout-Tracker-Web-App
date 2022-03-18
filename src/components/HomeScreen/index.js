@@ -2,6 +2,7 @@ import React from "react";
 
 import NavigationBar from "../NavigationBar";
 import ProfileWorkouts from "../ProfileScreen/ProfileWorkouts";
+import RecipeReviewScreen from "../RecipeReviewScreen";
 
 const HomeScreen = () => {
   const loggedIn = false;
@@ -22,7 +23,7 @@ const HomeScreen = () => {
 
           {/* Not logged in will show recipe reviews from users */}
           <div className="container">
-            <h1 className="text-center">Recipe Reviews</h1>
+            <RecipeReviewScreen profileScreen = {false}/>
           </div>
         </>
       )}

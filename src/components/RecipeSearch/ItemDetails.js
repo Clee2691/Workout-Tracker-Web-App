@@ -124,8 +124,12 @@ const ItemDetails = () => {
             <a href="#">User 2</a>
             <p>I love it! Best chicken recipe ever</p>
             
-            <div className="container">
+            <div className="container col-8">
                 <p className="lead">Add Your Own Review: </p>
+                <div className="input-group mt-2 mb-2">
+                  <label className="form-label me-2" htmlFor="starInput">Number of Stars</label>
+                  <input type="number" className="form-control form-control-sm" defaultValue={0} min="0" max="5" id="starInput"/>
+                </div>
                 <textarea className="form-control" placeholder="Did you try this recipe?"></textarea>
                 <button className="btn btn-success mt-2">Review</button>
             </div>
