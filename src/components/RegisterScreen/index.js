@@ -10,7 +10,7 @@ import * as service from "../../service/auth-service";
 
 const RegisterScreen = () => {
   const [loggedInUser, setLogInUser] = useState("");
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState({"userRole":"client"});
   const [validPW, setValidPW] = useState(false);
 
   const dispatch = useDispatch();
@@ -18,10 +18,18 @@ const RegisterScreen = () => {
 
   const inputChangeHandler = (event) => {
     const { name, value } = event.target;
-    setUser({
-      ...user,
-      [name]: value,
-    });
+    if (name === "userTypeRadio") {
+      setUser({
+        ...user,
+        "userRole": event.target.id,
+      });
+    } else {
+      setUser({
+        ...user,
+        [name]: value,
+      });
+    }
+    console.log(user);
   };
 
   const validatePW = (event) => {
@@ -145,6 +153,36 @@ const RegisterScreen = () => {
               <div>
                 <p className="mb-1">1 special character (!@#$%^*())</p>
               </div>
+            </div>
+            <div>Sign Up As:</div>
+            <div className="form-check">
+              <input
+                className="form-check-input"
+                type="radio"
+                name="userTypeRadio"
+                id="client"
+                defaultChecked
+                onChange={(e) => {
+                  inputChangeHandler(e);
+                }}
+              ></input>
+              <label className="form-check-label" htmlFor="client">
+                Client
+              </label>
+            </div>
+            <div className="form-check">
+              <input
+                className="form-check-input"
+                type="radio"
+                name="userTypeRadio"
+                id="trainer"
+                onChange={(e) => {
+                  inputChangeHandler(e);
+                }}
+              ></input>
+              <label className="form-check-label" htmlFor="trainer">
+                Trainer
+              </label>
             </div>
 
             <div className="d-grid">
