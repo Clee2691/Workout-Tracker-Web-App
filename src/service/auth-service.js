@@ -26,5 +26,6 @@ export const logout = async () => {
 export const profile = async (abortCont) => {
     const response = await api.post(`${AUTH_API}/profile`, {
       signal: abortCont.signal});
+
     return response.data;
 }

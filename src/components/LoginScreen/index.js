@@ -9,6 +9,7 @@ import * as service from "../../service/auth-service.js";
 import NavigationBar from "../NavigationBar";
 import HomeScreen from "../HomeScreen"
 
+
 const LoginScreen = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -137,7 +138,6 @@ const LoginScreen = () => {
       </div>
     </>
   );
-
   }
 };
 
