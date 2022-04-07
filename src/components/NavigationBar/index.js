@@ -1,8 +1,36 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import axios from "axios";
+
+import * as service from "../../service/auth-service.js";
+import { LogoutUser } from "../../actions/auth-actions.js";
 
 const NavigationBar = ({ currScreen }) => {
-  let loggedIn = true; // TODO: Change to use state
+  const [loggedInUser, setUser] = useState({});
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  useEffect(async () => {
+    let source = axios.CancelToken.source();
+    let isMounted = true;
+    const user = await service.profile(source.token);
+    if (isMounted) {
+      setUser(user);
+    }
+    return () => {
+      isMounted = false;
+      source.cancel();
+    }
+  }, [loggedInUser]);
+
+  const clearUser = () => {
+    LogoutUser(dispatch).then(() => {
+      navigate("/home");
+    });
+  };
+
   return (
     <nav className="navbar navbar-expand-md navbar-dark bg-primary">
       <div className="container-fluid ms-2 me-2">
@@ -30,7 +58,7 @@ const NavigationBar = ({ currScreen }) => {
                 SEARCH
               </Link>
             </li>
-            {loggedIn && (
+            {loggedInUser && (
               <li className="nav-item">
                 <Link
                   to="/profile"
@@ -42,7 +70,7 @@ const NavigationBar = ({ currScreen }) => {
                 </Link>
               </li>
             )}
-            {loggedIn && (
+            {loggedInUser && (
               <li className="nav-item">
                 <Link
                   to="/workout-log"
@@ -55,7 +83,7 @@ const NavigationBar = ({ currScreen }) => {
               </li>
             )}
           </ul>
-          {!loggedIn && (
+          {!loggedInUser && (
             <div className="d-flex">
               <Link to="/login" className="btn btn-outline-success me-2">
                 LOGIN
@@ -65,14 +93,19 @@ const NavigationBar = ({ currScreen }) => {
               </Link>
             </div>
           )}
-          {loggedIn && (
+          {loggedInUser && (
             <div className="d-flex">
-              <h4 className="mb-0 align-self-center me-1">Welcome Calvin!</h4>
+              <h4 className="mb-0 align-self-center me-1">
+                Welcome {loggedInUser.username}
+              </h4>
               <img
                 className="img-fluid rounded-circle"
                 src="../images/avatars/maleprof2.jpg"
                 width="48px"
               ></img>
+              <button className="btn btn-danger ms-2 me-2" onClick={clearUser}>
+                Logout
+              </button>
             </div>
           )}
         </div>

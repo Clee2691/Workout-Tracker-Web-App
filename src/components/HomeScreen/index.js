@@ -1,15 +1,32 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 import NavigationBar from "../NavigationBar";
 import ProfileWorkouts from "../ProfileScreen/ProfileWorkouts";
 import RecipeReviewScreen from "../RecipeReviewScreen";
 
+import * as service from "../../service/auth-service.js";
+
 const HomeScreen = () => {
-  const loggedIn = false;
+  const [loggedInUser, setUser] = useState({});
+
+  useEffect(async () => {
+    let source = axios.CancelToken.source();
+    let isMounted = true;
+    const user = await service.profile(source.token);
+    if (isMounted) {
+      setUser(user);
+    }
+    return () => {
+      isMounted = false;
+      source.cancel();
+    };
+  }, [loggedInUser]);
+
   return (
     <>
       <NavigationBar currScreen={"HOME"} />
-      {!loggedIn && (
+      {!loggedInUser && (
         <>
           <div className="banner-logo">
             <div className="background-banner" />
@@ -23,24 +40,25 @@ const HomeScreen = () => {
 
           {/* Not logged in will show recipe reviews from users */}
           <div className="container">
-            <RecipeReviewScreen profileScreen = {false}/>
+            <RecipeReviewScreen profileScreen={false} />
           </div>
         </>
       )}
-      {loggedIn && (
+      {loggedInUser && (
         <>
           <div className="banner-logo">
             <div className="background-banner" />
             <h1 className="home-heading text-center">
-              Welcome back Calvin! 
+              Welcome back {loggedInUser.userName}
             </h1>
-            <h3 className="subtitle-heading text-center">Scroll down to start logging your workouts!</h3>
+            <h3 className="subtitle-heading text-center">
+              Scroll down to start logging your workouts!
+            </h3>
           </div>
           {/* Logging in will show your logged workouts */}
           <div className="container mt-2 col-md-8 mb-2">
-            <ProfileWorkouts/>
+            <ProfileWorkouts />
           </div>
-          
         </>
       )}
     </>

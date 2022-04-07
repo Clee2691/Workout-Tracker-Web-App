@@ -1,6 +1,4 @@
-const initialData = []
-
-const workoutLogReducer = (state = initialData, action) => {
+const workoutLogReducer = (state = [], action) => {
   switch (action.type) {
     case "add-workout":
         const newWorkouts =[

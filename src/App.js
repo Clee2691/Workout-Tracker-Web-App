@@ -20,8 +20,9 @@ import SearchResults from "./components/RecipeSearch/SearchResults";
 import searchPageReducer from "./reducers/searchReducer";
 import workoutLogReducer from "./reducers/workoutLogReducer";
 import WorkoutLog from "./components/WorkoutLog";
+import userReducer from "./reducers/userReducer";
 
-const reducers = combineReducers({searchPageReducer, workoutLogReducer})
+const reducers = combineReducers({searchPageReducer, workoutLogReducer, userReducer})
 
 const store = createStore(reducers);
 
