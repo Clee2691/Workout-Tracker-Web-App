@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
@@ -11,13 +11,23 @@ const NavigationBar = ({ currScreen }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const getUser = async () => {
-    const user = await service.profile();
-    setUser(user);
+  const getUser = async (isMounted, abortCont) => {
+    const user = await service.profile(abortCont);
+    if (isMounted) {
+      setUser(user);
+    } else {
+      console.log("Dismounted");
+    }
   };
-
+  
   useEffect(() => {
-    getUser();
+    let isMounted = true;
+    const abortCont = new AbortController();
+    getUser(isMounted, abortCont);
+    return () => {
+      isMounted = false;
+      abortCont.abort();
+    };
   }, []);
 
   const clearUser = () => {

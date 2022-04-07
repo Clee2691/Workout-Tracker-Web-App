@@ -1,14 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
 import { LoginUser } from "../../actions/auth-actions";
 
+import * as service from "../../service/auth-service.js";
+
 import NavigationBar from "../NavigationBar";
+import HomeScreen from "../HomeScreen"
 
 const LoginScreen = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const [loggedInUser, setLogInUser] = useState("");
 
   const [user, setUser] = useState({});
   const [loginError, setError] = useState({});
@@ -34,6 +39,29 @@ const LoginScreen = () => {
         }
       });
   };
+
+  const getUser = async (isMounted, abortCont) => {
+    const user = await service.profile(abortCont);
+    if (isMounted) {
+      setLogInUser(user);
+    } else {
+      console.log("Dismounted");
+    }
+  };
+
+  useEffect(() => {
+    const abortCont = new AbortController();
+    let isMounted = true;
+    getUser(isMounted, abortCont);
+    return () => {
+      isMounted = false;
+      abortCont.abort();
+    };
+  }, []);
+
+  if (loggedInUser) {
+    return <HomeScreen/>
+  } else {
 
   return (
     <>
@@ -109,6 +137,8 @@ const LoginScreen = () => {
       </div>
     </>
   );
+
+  }
 };
 
 export default LoginScreen;

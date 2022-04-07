@@ -10,13 +10,23 @@ import * as service from "../../service/auth-service.js";
 const HomeScreen = () => {
   const [loggedInUser, setUser] = useState({});
 
-  const getUser = async () => {
-    const user = await service.profile();
-    setUser(user);
+  const getUser = async (isMounted, abortCont) => {
+    const user = await service.profile(abortCont);
+    if (isMounted) {
+      setUser(user);
+    } else {
+      console.log("Dismounted");
+    }
   };
 
   useEffect(() => {
-    getUser();
+    const abortCont = new AbortController();
+    let isMounted = true;
+    getUser(isMounted, abortCont);
+    return () => {
+      isMounted = false;
+      abortCont.abort();
+    };
   }, []);
 
   return (
