@@ -10,22 +10,30 @@ import * as service from "../../service/auth-service.js";
 const HomeScreen = () => {
   const [loggedInUser, setUser] = useState({});
 
-  useEffect(async () => {
-    let source = axios.CancelToken.source();
-    let isMounted = true;
-    const user = await service.profile(source.token);
+  const getUser = async (isMounted, abortCont) => {
+    const user = await service.profile(abortCont);
     if (isMounted) {
       setUser(user);
+    } else {
+      console.log("Dismounted");
     }
+  };
+
+  useEffect(() => {
+    const abortCont = new AbortController();
+    let isMounted = true;
+    getUser(isMounted, abortCont);
     return () => {
       isMounted = false;
-      source.cancel();
+      abortCont.abort();
     };
-  }, [loggedInUser]);
+  }, []);
 
   return (
     <>
-      <NavigationBar currScreen={"HOME"} />
+      <NavigationBar
+        currScreen={"HOME" }
+      />
       {!loggedInUser && (
         <>
           <div className="banner-logo">

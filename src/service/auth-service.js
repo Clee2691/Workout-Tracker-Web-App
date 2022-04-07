@@ -23,9 +23,9 @@ export const logout = async () => {
     return response.data;
 }
 
-export const profile = async (token) => {
+export const profile = async (abortCont) => {
     const response = await api.post(`${AUTH_API}/profile`, {
-      cancelToken: token,
-    });
+      signal: abortCont.signal});
+
     return response.data;
 }

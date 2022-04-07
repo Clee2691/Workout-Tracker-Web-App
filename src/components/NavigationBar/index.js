@@ -1,32 +1,38 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import axios from "axios";
 
 import * as service from "../../service/auth-service.js";
 import { LogoutUser } from "../../actions/auth-actions.js";
 
 const NavigationBar = ({ currScreen }) => {
-  const [loggedInUser, setUser] = useState({});
+  const [loggedInUser, setUser] = useState("");
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  useEffect(async () => {
-    let source = axios.CancelToken.source();
-    let isMounted = true;
-    const user = await service.profile(source.token);
+  const getUser = async (isMounted, abortCont) => {
+    const user = await service.profile(abortCont);
     if (isMounted) {
       setUser(user);
+    } else {
+      console.log("Dismounted");
     }
+  };
+  
+  useEffect(() => {
+    let isMounted = true;
+    const abortCont = new AbortController();
+    getUser(isMounted, abortCont);
     return () => {
       isMounted = false;
-      source.cancel();
-    }
-  }, [loggedInUser]);
+      abortCont.abort();
+    };
+  }, []);
 
   const clearUser = () => {
     LogoutUser(dispatch).then(() => {
+      window.location.reload();
       navigate("/home");
     });
   };
