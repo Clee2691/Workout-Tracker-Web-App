@@ -10,6 +10,7 @@ export const RegisterUser = async (dispatch, user) => {
     firstName: "",
     lastName: "",
     dateJoined: new Date(),
+    aboutUser: "",
     sensitiveInfo: {
       dateOfBirth: "",
       phoneNumber: "",

@@ -29,7 +29,6 @@ const RegisterScreen = () => {
         [name]: value,
       });
     }
-    console.log(user);
   };
 
   const validatePW = (event) => {
