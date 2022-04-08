@@ -3,9 +3,16 @@ import axios from 'axios';
 const API_BASE = process.env.REACT_APP_API_BASE;
 const USER_API = `${API_BASE}/users`;
 
+const api = axios.create({
+    withCredentials: true
+})
+
 export const findAllUsers = async () => {
-    const response = await axios.get(USER_API);
-    const allUsers = response.data;
-    return allUsers;
+    const response = await api.get(`${USER_API}/get`);
+    return response.data;
 }
 
+export const updateUser = async (newUser) => {
+    const response = await api.put(`${USER_API}/${newUser._id}`, newUser);
+    return response.data;
+}
