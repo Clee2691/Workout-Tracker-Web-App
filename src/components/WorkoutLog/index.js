@@ -1,33 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import NavigationBar from "../NavigationBar";
 import LoginScreen from "../LoginScreen";
-import * as service from "../../service/auth-service";
+import { GetUser } from "../../actions/user-actions";
 
 const WorkoutLog = () => {
   const dispatch = useDispatch();
-
-  const [loggedInUser, setLogInUser] = useState("");
-
-  const getUser = async (isMounted, abortCont) => {
-    const user = await service.profile(abortCont);
-    if (isMounted) {
-      setLogInUser(user);
-    } else {
-      console.log("Dismounted");
-    }
-  };
+  const loggedInUser= useSelector(state => state.userReducer);
 
   useEffect(() => {
-    const abortCont = new AbortController();
-    let isMounted = true;
-    getUser(isMounted, abortCont);
-    return () => {
-      isMounted = false;
-      abortCont.abort();
-    };
-  }, []);
+    GetUser(dispatch);
+  }, [dispatch]);
 
   const todaysDate = new Date();
   const dateStr =

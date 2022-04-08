@@ -19,7 +19,7 @@ const ProfileScreen = () => {
 
   useEffect(() => {
     GetUser(dispatch);
-  }, []);
+  }, [dispatch]);
 
   const handleEditbtn = () => {
     setEditing(true);
@@ -47,7 +47,8 @@ const ProfileScreen = () => {
                   </p>
                   <p className="text-center">
                     Joined:{" "}
-                    {format(parseISO(loggedInUser.dateJoined), "dd MMM yyyy")}
+                    {loggedInUser.dateJoined &&
+                      format(parseISO(loggedInUser.dateJoined), "dd MMM yyyy")}
                   </p>
                   <p className="card-subtitle text-center">
                     Username: {loggedInUser.username}
@@ -68,8 +69,15 @@ const ProfileScreen = () => {
                     <h4 className="text-center">
                       Body Stats (Not publicily visible):
                     </h4>
-                    <p>Height: {loggedInUser.userStats.height} inches.</p>
-                    <p>Weight: {loggedInUser.userStats.weight} lbs.</p>
+                    <p>
+                      Height:{" "}
+                      {loggedInUser.userStats && loggedInUser.userStats.height}{" "}
+                      inches.
+                    </p>
+                    <p>
+                      Weight:{" "}
+                      {loggedInUser.userStats && loggedInUser.userStats.weight} lbs.
+                    </p>
                   </div>
                   <hr></hr>
                   <div>
@@ -78,14 +86,15 @@ const ProfileScreen = () => {
                     </h4>
                     <p className="card-text">
                       Date of Birth:{" "}
-                      {format(
-                        parse(
-                          loggedInUser.sensitiveInfo.dateOfBirth,
-                          "yyyy-MM-dd",
-                          new Date()
-                        ),
-                        "dd MMM yyyy"
-                      )}
+                      {loggedInUser.dateOfBirth &&
+                        format(
+                          parse(
+                            loggedInUser.sensitiveInfo.dateOfBirth,
+                            "yyyy-MM-dd",
+                            new Date()
+                          ),
+                          "dd MMM yyyy"
+                        )}
                     </p>
                     <p className="card-text">
                       Phone #: {loggedInUser.sensitiveInfo.phoneNumber}

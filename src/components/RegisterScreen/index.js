@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
 import NavigationBar from "../NavigationBar";
 import HomeScreen from "../HomeScreen";
 
 import { RegisterUser } from "../../actions/auth-actions";
-import * as service from "../../service/auth-service";
+import { GetUser } from "../../actions/user-actions";
 
 const RegisterScreen = () => {
-  const [loggedInUser, setLogInUser] = useState("");
+  const loggedInUser= useSelector(state => state.userReducer);
   const [user, setUser] = useState({"userRole":"client"});
   const [validPW, setValidPW] = useState(false);
 
@@ -48,24 +48,9 @@ const RegisterScreen = () => {
     }
   };
 
-  const getUser = async (isMounted, abortCont) => {
-    const user = await service.profile(abortCont);
-    if (isMounted) {
-      setLogInUser(user);
-    } else {
-      console.log("Dismounted");
-    }
-  };
-
   useEffect(() => {
-    const abortCont = new AbortController();
-    let isMounted = true;
-    getUser(isMounted, abortCont);
-    return () => {
-      isMounted = false;
-      abortCont.abort();
-    };
-  }, []);
+    GetUser(dispatch);
+  }, [dispatch]);
 
   if (loggedInUser) {
     return <HomeScreen />;

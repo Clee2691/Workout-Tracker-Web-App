@@ -1,33 +1,19 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useEffect } from "react";
 
 import NavigationBar from "../NavigationBar";
 import ProfileWorkouts from "../ProfileScreen/ProfileWorkouts";
 import RecipeReviewScreen from "../RecipeReviewScreen";
 
-import * as service from "../../service/auth-service.js";
+import { GetUser } from "../../actions/user-actions";
+import { useDispatch, useSelector } from "react-redux";
 
 const HomeScreen = () => {
-  const [loggedInUser, setUser] = useState({});
-
-  const getUser = async (isMounted, abortCont) => {
-    const user = await service.profile(abortCont);
-    if (isMounted) {
-      setUser(user);
-    } else {
-      console.log("Dismounted");
-    }
-  };
+  const dispatch = useDispatch();
+  const loggedInUser = useSelector(state => state.userReducer);
 
   useEffect(() => {
-    const abortCont = new AbortController();
-    let isMounted = true;
-    getUser(isMounted, abortCont);
-    return () => {
-      isMounted = false;
-      abortCont.abort();
-    };
-  }, []);
+    GetUser(dispatch);
+  }, [dispatch]);
 
   return (
     <>

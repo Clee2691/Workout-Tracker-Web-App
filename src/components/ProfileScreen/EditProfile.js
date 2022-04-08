@@ -18,7 +18,7 @@ const EditProfile = ({ isEdit }) => {
 
   useEffect(() => {
     GetUser(dispatch);
-  }, []);
+  }, [dispatch]);
 
   const inputChangeHandler = (event) => {
     let newUser = {};

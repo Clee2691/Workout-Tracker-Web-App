@@ -1,20 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
 import { LoginUser } from "../../actions/auth-actions";
 
-import * as service from "../../service/auth-service.js";
-
 import NavigationBar from "../NavigationBar";
 import HomeScreen from "../HomeScreen"
+import { GetUser } from "../../actions/user-actions";
 
 
 const LoginScreen = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  const [loggedInUser, setLogInUser] = useState("");
+  const loggedInUser = useSelector(state => state.userReducer);
 
   const [user, setUser] = useState({});
   const [loginError, setError] = useState({});
@@ -41,24 +39,9 @@ const LoginScreen = () => {
       });
   };
 
-  const getUser = async (isMounted, abortCont) => {
-    const user = await service.profile(abortCont);
-    if (isMounted) {
-      setLogInUser(user);
-    } else {
-      console.log("Dismounted");
-    }
-  };
-
   useEffect(() => {
-    const abortCont = new AbortController();
-    let isMounted = true;
-    getUser(isMounted, abortCont);
-    return () => {
-      isMounted = false;
-      abortCont.abort();
-    };
-  }, []);
+    GetUser(dispatch);
+  }, [dispatch]);
 
   if (loggedInUser) {
     return <HomeScreen/>
@@ -107,23 +90,6 @@ const LoginScreen = () => {
               <div className="text-danger">{loginError.errPW}</div>
             )}
           </div>
-          <div className="form-check mb-2 d-flex">
-            <input
-              type="checkbox"
-              className="form-check-input me-1"
-              id="remember-check"
-            />
-            <label
-              className="form-check-label me-auto text-muted fw-bold"
-              htmlFor="remember-check"
-            >
-              Remember Me?
-            </label>
-            <Link to="#" className="text-decoration-none">
-              Forgot Password?
-            </Link>
-          </div>
-
           <div className="d-grid">
             <button onClick={loginBtn} className="btn btn-primary">
               Login

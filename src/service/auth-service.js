@@ -25,6 +25,5 @@ export const logout = async () => {
 
 export const profile = async () => {
     const response = await api.post(`${AUTH_API}/profile`);
-
     return response.data;
 }
