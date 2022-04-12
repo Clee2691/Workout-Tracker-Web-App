@@ -1,14 +1,25 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+
+import axios from 'axios';
 
 import NavigationBar from "../NavigationBar";
 
-const allItems = (state) => state.searchPageReducer.allRecipes;
 
 const SearchResults = () => {
-  const allRecipes = useSelector(allItems);
-  console.log(allRecipes);
+  const [allRecipes, setRecipes] = useState([]);
+  const { criteria } = useParams();
+
+  const mealdbURL = "https://www.themealdb.com/api/json/v1/1/filter.php?i=";
+
+  const getRecipesByKeyword = async () => {
+    const response = await axios.get(`${mealdbURL}${criteria}`);
+    setRecipes(response.data);
+  }
+
+  useEffect(() => {
+    getRecipesByKeyword();
+  }, []);
 
   if (!allRecipes.meals) {
     return (

@@ -1,30 +1,13 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 
 import NavigationBar from "../NavigationBar";
 
-const mealdbURL = "https://www.themealdb.com/api/json/v1/1/filter.php?i=";
-
 const RecipeSearch = () => {
-  const dispatch = useDispatch();
-
   const [searchkeyword, setKeyword] = useState("");
 
   const keywordChangeHandler = (event) => {
     setKeyword(event.target.value);
-  };
-
-  const searchClickHandler = () => {
-    const finalUrl = mealdbURL + searchkeyword;
-    fetch(finalUrl)
-      .then((response) => response.json())
-      .then((data) =>
-        dispatch({
-          type: "search",
-          data,
-        })
-      );
   };
 
   return (
@@ -49,9 +32,7 @@ const RecipeSearch = () => {
               onChange={keywordChangeHandler}
             />
             <Link to={`${searchkeyword}`}>
-              <button className="btn btn-success" onClick={searchClickHandler}>
-                Go
-              </button>
+              <button className="btn btn-success">Go</button>
             </Link>
           </div>
         </div>
