@@ -1,15 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
+import axios from "axios";
 
 import NavigationBar from "../NavigationBar";
+import { GetUser } from "../../actions/user-actions";
+
 
 const foodURL = "https://www.themealdb.com/api/json/v1/1/lookup.php?i=";
 
 const ItemDetails = () => {
   const [selectedItem, setSelected] = useState({});
+  const loggedInUser = useSelector(state => state.userReducer);
   const recipeId = useParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const mergeIngredientList = function () {
     // Mapping ingredients with their measurements from the json response
@@ -44,11 +51,15 @@ const ItemDetails = () => {
     return mapped;
   };
 
+  const getItemById = async () => {
+    const response = await axios.get(`${foodURL}${recipeId.id}`);
+    setSelected(response.data.meals[0]);
+  }
+
   useEffect(() => {
-    fetch(foodURL + recipeId.id)
-      .then((res) => res.json())
-      .then((data) => setSelected(data.meals[0]));
-  }, [recipeId.id]);
+    getItemById();
+    GetUser(dispatch);
+  }, [dispatch]);
 
   if (Object.keys(selectedItem).length === 0) {
     return (
@@ -115,7 +126,7 @@ const ItemDetails = () => {
               )}
             </div>
           </div>
-
+          <hr></hr>
           {/* Item reviews */}
           <div className="container">
             <h4 className="text-center">User Reviews</h4>
@@ -123,16 +134,42 @@ const ItemDetails = () => {
             <p>I love it! Best chicken recipe ever</p>
             <a href="#">User 2</a>
             <p>I love it! Best chicken recipe ever</p>
-            
-            <div className="container col-8">
+
+            {loggedInUser && (
+              <div className="container col-8">
                 <p className="lead">Add Your Own Review: </p>
                 <div className="input-group mt-2 mb-2">
-                  <label className="form-label me-2" htmlFor="starInput">Number of Stars</label>
-                  <input type="number" className="form-control form-control-sm" defaultValue={0} min="0" max="5" id="starInput"/>
+                  <label className="form-label me-2" htmlFor="starInput">
+                    Number of Stars
+                  </label>
+                  <input
+                    type="number"
+                    className="form-control form-control-sm"
+                    defaultValue={0}
+                    min="0"
+                    max="5"
+                    id="starInput"
+                  />
                 </div>
-                <textarea className="form-control" placeholder="Did you try this recipe?"></textarea>
+                <textarea
+                  className="form-control"
+                  placeholder="Did you try this recipe?"
+                ></textarea>
                 <button className="btn btn-success mt-2">Review</button>
-            </div>
+              </div>
+            )}
+            {!loggedInUser && (
+              <div className="container col-8 h4 text-center mb-3">
+                <a className="text-decoration-none" href="/login">
+                  Log In
+                </a>{" "}
+                or{" "}
+                <a className="text-decoration-none" href="/register">
+                  Register
+                </a>{" "}
+                to add your own review!
+              </div>
+            )}
           </div>
         </div>
       </>
