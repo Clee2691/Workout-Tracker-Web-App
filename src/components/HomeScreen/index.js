@@ -1,25 +1,27 @@
 import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import NavigationBar from "../NavigationBar";
 import ProfileWorkouts from "../ProfileScreen/ProfileWorkouts";
 import RecipeReviewScreen from "../RecipeReviewScreen";
 
 import { GetUser } from "../../actions/user-actions";
-import { useDispatch, useSelector } from "react-redux";
+import { GetRecentReviews } from "../../actions/recipe-review-actions";
+
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
   const loggedInUser = useSelector(state => state.userReducer);
+  const recentReviews = useSelector(state => state.reviewReducer);
 
   useEffect(() => {
     GetUser(dispatch);
+    GetRecentReviews(dispatch);
   }, [dispatch]);
 
   return (
     <>
-      <NavigationBar
-        currScreen={"HOME" }
-      />
+      <NavigationBar currScreen={"HOME"} />
       {!loggedInUser && (
         <>
           <div className="banner-logo">
@@ -34,7 +36,13 @@ const HomeScreen = () => {
 
           {/* Not logged in will show recipe reviews from users */}
           <div className="container">
-            <RecipeReviewScreen profileScreen={false} />
+            <h1 className="text-center mb-2">Latest Reviewed Recipes</h1>
+            {recentReviews.length > 0 &&
+              recentReviews.map((rev) => {
+                return (
+                  <RecipeReviewScreen recipeRev={rev}/>
+                );
+              })}
           </div>
         </>
       )}

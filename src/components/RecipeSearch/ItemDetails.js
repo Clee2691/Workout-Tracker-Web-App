@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { format, parseISO } from "date-fns";
 
 import axios from "axios";
 
@@ -10,7 +11,7 @@ import { GetUser } from "../../actions/user-actions";
 import {
   GetMealReviews,
   CreateMealReview,
-  DeleteMealReview
+  DeleteMealReview,
 } from "../../actions/recipe-review-actions";
 
 const foodURL = "https://www.themealdb.com/api/json/v1/1/lookup.php?i=";
@@ -81,7 +82,7 @@ const ItemDetails = () => {
     const finalReview = {
       ...newReview,
       mealPic: selectedItem.strMealThumb,
-      mealName: selectedItem.strMeal
+      mealName: selectedItem.strMeal,
     };
     CreateMealReview(dispatch, finalReview).catch((e) => {
       if (e.response.status === 403) {
@@ -92,7 +93,7 @@ const ItemDetails = () => {
 
   const deleteCurrReview = (revId) => {
     DeleteMealReview(dispatch, revId);
-  }
+  };
 
   useEffect(() => {
     getItemById();
@@ -175,10 +176,17 @@ const ItemDetails = () => {
                 return (
                   <div className="border border-light p-2 mb-2">
                     <a href="#">{review.userName} </a> -{" "}
-                    <span className="text-muted">{review.revDate}</span>
+                    <span className="text-muted">
+                      {format(parseISO(review.revDate), "dd MMM yyyy")}
+                    </span>
                     {loggedInUser._id === review.userId && (
                       <span className="float-end">
-                        <i className="fa-solid fa-x" onClick={() => {deleteCurrReview(review._id)}}></i>
+                        <i
+                          className="fa-solid fa-x"
+                          onClick={() => {
+                            deleteCurrReview(review._id);
+                          }}
+                        ></i>
                       </span>
                     )}
                     <p>Rating: {review.starRating}/5</p>

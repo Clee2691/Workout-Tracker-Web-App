@@ -10,16 +10,19 @@ import RecipeReviewScreen from "../RecipeReviewScreen";
 
 import { useDispatch, useSelector } from "react-redux";
 import { GetUser } from "../../actions/user-actions";
+import { GetRecipeRevsByUId } from "../../actions/recipe-review-actions";
 
 const ProfileScreen = () => {
   const dispatch = useDispatch();
   const [isEditing, setEditing] = useState(false);
 
   const loggedInUser = useSelector((state) => state.userReducer);
+  const recipeReviews = useSelector((state) => state.reviewReducer);
 
   useEffect(() => {
     GetUser(dispatch);
-  }, [dispatch]);
+    GetRecipeRevsByUId(dispatch, loggedInUser._id);
+  }, []);
 
   const handleEditbtn = () => {
     setEditing(true);
@@ -76,7 +79,8 @@ const ProfileScreen = () => {
                     </p>
                     <p>
                       Weight:{" "}
-                      {loggedInUser.userStats && loggedInUser.userStats.weight} lbs.
+                      {loggedInUser.userStats && loggedInUser.userStats.weight}{" "}
+                      lbs.
                     </p>
                   </div>
                   <hr></hr>
@@ -117,7 +121,16 @@ const ProfileScreen = () => {
               <div className="h1 text-center">Workouts</div>
               <ProfileWorkouts />
               <hr></hr>
-              <RecipeReviewScreen profileScreen={true} />
+              <div className="container">
+                <h1 className="text-center mb-2">Your Reviewed Recipes</h1>
+                {recipeReviews.length > 0 &&
+                  recipeReviews.map((rev) => {
+                    return <RecipeReviewScreen recipeRev={rev} />;
+                  })}
+                  {
+                    recipeReviews.length < 0 && <div>No reviews! Search for recipes to review them!</div>
+                  }
+              </div>
               <hr></hr>
               <ProfileFollow />
             </div>
