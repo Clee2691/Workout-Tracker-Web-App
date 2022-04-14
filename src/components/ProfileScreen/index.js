@@ -99,7 +99,7 @@ const ProfileScreen = () => {
                     </h4>
                     <p className="card-text">
                       Date of Birth:{" "}
-                      {loggedInUser.dateOfBirth &&
+                      {loggedInUser.sensitiveInfo.dateOfBirth &&
                         format(
                           parse(
                             loggedInUser.sensitiveInfo.dateOfBirth,
@@ -134,7 +134,7 @@ const ProfileScreen = () => {
                 <h3 className="text-center mb-2">Your Reviewed Recipes</h3>
                 {recipeReviews.length > 0 &&
                   recipeReviews.map((rev) => {
-                    return <RecipeReviewScreen recipeRev={rev} key={rev._id}/>;
+                    return <RecipeReviewScreen recipeRev={rev} key={rev._id} />;
                   })}
                 {recipeReviews.length === 0 && (
                   <div>No reviews! Search for recipes to review them!</div>
