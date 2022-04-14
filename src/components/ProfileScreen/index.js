@@ -11,6 +11,7 @@ import RecipeReviewScreen from "../RecipeReviewScreen";
 import { useDispatch, useSelector } from "react-redux";
 import { GetUser } from "../../actions/user-actions";
 import { GetRecipeRevsByUId } from "../../actions/recipe-review-actions";
+import { GetUserWorkouts } from "../../actions/workout-actions";
 
 const ProfileScreen = () => {
   const dispatch = useDispatch();
@@ -25,6 +26,7 @@ const ProfileScreen = () => {
       localStorage.setItem("uid", loggedInUser._id);
     }
     await GetRecipeRevsByUId(dispatch, localStorage.getItem("uid"));
+    await GetUserWorkouts(dispatch, localStorage.getItem("uid"));
   };
 
   useEffect(() => {
@@ -125,11 +127,11 @@ const ProfileScreen = () => {
             </div>
 
             <div className="col">
-              <div className="h2 text-center">Workouts</div>
+              <div className="h3 text-center">Logged Workouts</div>
               <ProfileWorkouts />
               <hr></hr>
               <div className="container">
-                <h2 className="text-center mb-2">Your Reviewed Recipes</h2>
+                <h3 className="text-center mb-2">Your Reviewed Recipes</h3>
                 {recipeReviews.length > 0 &&
                   recipeReviews.map((rev) => {
                     return <RecipeReviewScreen recipeRev={rev} key={rev._id}/>;
@@ -139,7 +141,7 @@ const ProfileScreen = () => {
                 )}
               </div>
               <hr></hr>
-              <h2 className="text-center">People you Follow</h2>
+              <h3 className="text-center">People you Follow</h3>
               <ProfileFollow />
             </div>
           </div>

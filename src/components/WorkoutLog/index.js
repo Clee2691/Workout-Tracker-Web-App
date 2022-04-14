@@ -5,6 +5,8 @@ import NavigationBar from "../NavigationBar";
 import LoginScreen from "../LoginScreen";
 import { GetUser } from "../../actions/user-actions";
 
+import { CreateUserWorkout } from "../../actions/workout-actions";
+
 const WorkoutLog = () => {
   const dispatch = useDispatch();
   const loggedInUser= useSelector(state => state.userReducer);
@@ -22,12 +24,12 @@ const WorkoutLog = () => {
     String(todaysDate.getDate()).padStart(2, 0);
 
   const [workoutSets, setWkSets] = useState([
-    { _id: new Date().getTime(), set: 0, weight: 0, reps: 0 },
+    { setNum: 0, weight: 0, reps: 0 },
   ]);
 
   const [wkoutInfo, setWkoutInfo] = useState({
-    exName: "",
-    date: dateStr,
+    exerciseName: "",
+    exDate: dateStr,
     sets: workoutSets,
   });
 
@@ -52,7 +54,7 @@ const WorkoutLog = () => {
   const addButtonHandler = (index) => {
     setWkSets([
       ...workoutSets,
-      { _id: new Date().getTime(), set: index + 1, weight: 0, reps: 0 },
+      { setNum: index + 1, weight: 0, reps: 0 },
     ]);
   };
 
@@ -65,17 +67,15 @@ const WorkoutLog = () => {
 
   const saveWorkoutBtnHandler = () => {
     const combInfo = {
-      _id: new Date().getTime(),
+      userId: loggedInUser._id,
       ...wkoutInfo,
       sets: workoutSets,
     };
     console.log(combInfo);
-    dispatch({
-      type: "add-workout",
-      combInfo,
-    });
+    CreateUserWorkout(dispatch, combInfo);
     alert("Workout Successfully Added!");
   };
+
   if (!loggedInUser) {
     return <LoginScreen />;
   } else {
@@ -90,7 +90,7 @@ const WorkoutLog = () => {
                 Exercise
               </label>
               <input
-                name="exName"
+                name="exerciseName"
                 type="text"
                 className="form-control"
                 id="exerciseNameInput"
@@ -103,10 +103,10 @@ const WorkoutLog = () => {
                 Date
               </label>
               <input
-                name="date"
+                name="exDate"
                 type="date"
                 className="form-control rounded-corner"
-                defaultValue={wkoutInfo.date}
+                defaultValue={wkoutInfo.exDate}
                 onChange={nameDateInputHandler}
               />
             </div>
@@ -118,7 +118,7 @@ const WorkoutLog = () => {
                       Set #
                     </label>
                     <input
-                      name="set"
+                      name="setNum"
                       id="setInput"
                       type="number"
                       className="form-control me-2"
