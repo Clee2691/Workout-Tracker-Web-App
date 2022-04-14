@@ -4,13 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import NavigationBar from "../NavigationBar";
 import ProfileWorkouts from "../ProfileScreen/ProfileWorkouts";
 import RecipeReviewScreen from "../RecipeReviewScreen";
-<<<<<<< HEAD
 
 import { GetUser } from "../../actions/user-actions";
 import { GetRecentReviews } from "../../actions/recipe-review-actions";
-
-=======
->>>>>>> 6a9b37ad2a47307d4ac8cb8ed3ee5a10d96335ea
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
@@ -39,7 +35,7 @@ const HomeScreen = () => {
 
           {/* Not logged in will show recipe reviews from users */}
           <div className="container">
-<<<<<<< HEAD
+
             <h1 className="text-center mb-2">Latest Reviewed Recipes</h1>
             {recentReviews.length > 0 &&
               recentReviews.map((rev) => {
@@ -47,9 +43,6 @@ const HomeScreen = () => {
                   <RecipeReviewScreen recipeRev={rev}/>
                 );
               })}
-=======
-            <RecipeReviewScreen profileScreen = {false}/>
->>>>>>> 6a9b37ad2a47307d4ac8cb8ed3ee5a10d96335ea
           </div>
         </>
       )}
