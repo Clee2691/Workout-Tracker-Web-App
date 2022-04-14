@@ -2,21 +2,33 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { format, parseISO } from "date-fns";
 
 import axios from "axios";
 
 import NavigationBar from "../NavigationBar";
 import { GetUser } from "../../actions/user-actions";
-
+import {
+  GetMealReviews,
+  CreateMealReview,
+  DeleteMealReview,
+} from "../../actions/recipe-review-actions";
 
 const foodURL = "https://www.themealdb.com/api/json/v1/1/lookup.php?i=";
 
 const ItemDetails = () => {
   const [selectedItem, setSelected] = useState({});
-  const loggedInUser = useSelector(state => state.userReducer);
-  const recipeId = useParams();
+  const recipeReviews = useSelector((state) => state.reviewReducer);
+  const loggedInUser = useSelector((state) => state.userReducer);
+  const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const [newReview, setNewReview] = useState({
+    mealId: id,
+    userId: loggedInUser._id,
+    userName: loggedInUser.username,
+  });
 
   const mergeIngredientList = function () {
     // Mapping ingredients with their measurements from the json response
@@ -51,13 +63,41 @@ const ItemDetails = () => {
     return mapped;
   };
 
+  // Connects to external API for recipe information
   const getItemById = async () => {
-    const response = await axios.get(`${foodURL}${recipeId.id}`);
+    const response = await axios.get(`${foodURL}${id}`);
     setSelected(response.data.meals[0]);
-  }
+  };
+
+  const handleReviewInput = (event) => {
+    const { name, value } = event.target;
+    const theReview = {
+      ...newReview,
+      [name]: value,
+    };
+    setNewReview(theReview);
+  };
+
+  const sendReview = () => {
+    const finalReview = {
+      ...newReview,
+      mealPic: selectedItem.strMealThumb,
+      mealName: selectedItem.strMeal,
+    };
+    CreateMealReview(dispatch, finalReview).catch((e) => {
+      if (e.response.status === 403) {
+        alert("You can only review a recipe once. Edit your review instead.");
+      }
+    });
+  };
+
+  const deleteCurrReview = (revId) => {
+    DeleteMealReview(dispatch, revId);
+  };
 
   useEffect(() => {
     getItemById();
+    GetMealReviews(dispatch, id);
     GetUser(dispatch);
   }, [dispatch]);
 
@@ -130,11 +170,34 @@ const ItemDetails = () => {
           {/* Item reviews */}
           <div className="container">
             <h4 className="text-center">User Reviews</h4>
-            <a href="#">User 1</a>
-            <p>I love it! Best chicken recipe ever</p>
-            <a href="#">User 2</a>
-            <p>I love it! Best chicken recipe ever</p>
-
+            {/* Show reviews from my DB if there are any */}
+            {recipeReviews.length > 0 &&
+              recipeReviews.map((review) => {
+                return (
+                  <div className="border border-light p-2 mb-2">
+                    <a href="#">{review.userName} </a> -{" "}
+                    <span className="text-muted">
+                      {format(parseISO(review.revDate), "dd MMM yyyy")}
+                    </span>
+                    {loggedInUser._id === review.userId && (
+                      <span className="float-end">
+                        <i
+                          className="fa-solid fa-x"
+                          onClick={() => {
+                            deleteCurrReview(review._id);
+                          }}
+                        ></i>
+                      </span>
+                    )}
+                    <p>Rating: {review.starRating}/5</p>
+                    <p>{review.revString}</p>
+                  </div>
+                );
+              })}
+            {recipeReviews.length === 0 && (
+              <div>Be the first to review this recipe!</div>
+            )}
+            {/* Allowing adding reviews if you are logged in */}
             {loggedInUser && (
               <div className="container col-8">
                 <p className="lead">Add Your Own Review: </p>
@@ -143,19 +206,29 @@ const ItemDetails = () => {
                     Number of Stars
                   </label>
                   <input
+                    name="starRating"
                     type="number"
                     className="form-control form-control-sm"
                     defaultValue={0}
                     min="0"
                     max="5"
                     id="starInput"
+                    onChange={(e) => {
+                      handleReviewInput(e);
+                    }}
                   />
                 </div>
                 <textarea
+                  name="revString"
                   className="form-control"
                   placeholder="Did you try this recipe?"
+                  onChange={(e) => {
+                    handleReviewInput(e);
+                  }}
                 ></textarea>
-                <button className="btn btn-success mt-2">Review</button>
+                <button className="btn btn-success mt-2" onClick={sendReview}>
+                  Review
+                </button>
               </div>
             )}
             {!loggedInUser && (

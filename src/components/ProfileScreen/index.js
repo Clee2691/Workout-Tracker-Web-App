@@ -10,15 +10,25 @@ import RecipeReviewScreen from "../RecipeReviewScreen";
 
 import { useDispatch, useSelector } from "react-redux";
 import { GetUser } from "../../actions/user-actions";
+import { GetRecipeRevsByUId } from "../../actions/recipe-review-actions";
 
 const ProfileScreen = () => {
   const dispatch = useDispatch();
   const [isEditing, setEditing] = useState(false);
 
   const loggedInUser = useSelector((state) => state.userReducer);
+  const recipeReviews = useSelector((state) => state.reviewReducer);
+
+  const getInitialInfo = async () => {
+    await GetUser(dispatch);
+    if (loggedInUser._id){
+      localStorage.setItem("uid", loggedInUser._id);
+    }
+    await GetRecipeRevsByUId(dispatch, localStorage.getItem("uid"));
+  };
 
   useEffect(() => {
-    GetUser(dispatch);
+    getInitialInfo();
   }, [dispatch]);
 
   const handleEditbtn = () => {
@@ -33,7 +43,7 @@ const ProfileScreen = () => {
           <div className="container row mt-4 ms-auto me-auto">
             {/* User profile card on left */}
             <div className="col-sm-4 col-lg-4">
-              <div className="card bg-transparent">
+              <div className="card bg-transparent border">
                 <img
                   className="rounded-circle p-3 img-fluid"
                   src="../images/avatars/profilemale1.jpg"
@@ -76,7 +86,8 @@ const ProfileScreen = () => {
                     </p>
                     <p>
                       Weight:{" "}
-                      {loggedInUser.userStats && loggedInUser.userStats.weight} lbs.
+                      {loggedInUser.userStats && loggedInUser.userStats.weight}{" "}
+                      lbs.
                     </p>
                   </div>
                   <hr></hr>
@@ -114,11 +125,21 @@ const ProfileScreen = () => {
             </div>
 
             <div className="col">
-              <div className="h1 text-center">Workouts</div>
+              <div className="h2 text-center">Workouts</div>
               <ProfileWorkouts />
               <hr></hr>
-              <RecipeReviewScreen profileScreen={true} />
+              <div className="container">
+                <h2 className="text-center mb-2">Your Reviewed Recipes</h2>
+                {recipeReviews.length > 0 &&
+                  recipeReviews.map((rev) => {
+                    return <RecipeReviewScreen recipeRev={rev} key={rev._id}/>;
+                  })}
+                {recipeReviews.length === 0 && (
+                  <div>No reviews! Search for recipes to review them!</div>
+                )}
+              </div>
               <hr></hr>
+              <h2 className="text-center">People you Follow</h2>
               <ProfileFollow />
             </div>
           </div>

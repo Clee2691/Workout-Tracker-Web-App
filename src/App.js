@@ -21,8 +21,14 @@ import searchPageReducer from "./reducers/searchReducer";
 import workoutLogReducer from "./reducers/workoutLogReducer";
 import WorkoutLog from "./components/WorkoutLog";
 import userReducer from "./reducers/userReducer";
+import reviewReducer from "./reducers/reviewReducer";
 
-const reducers = combineReducers({searchPageReducer, workoutLogReducer, userReducer})
+const reducers = combineReducers({
+  searchPageReducer,
+  workoutLogReducer,
+  userReducer,
+  reviewReducer
+});
 
 const store = createStore(reducers);
 
