@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 import NavigationBar from "../NavigationBar";
 import ProfileWorkouts from "../ProfileScreen/ProfileWorkouts";
@@ -35,14 +36,19 @@ const HomeScreen = () => {
 
           {/* Not logged in will show recipe reviews from users */}
           <div className="container">
-
-            <h1 className="text-center mb-2">Latest Reviewed Recipes</h1>
+            <h1 className="text-center mb-2">
+              Latest Reviewed Recipes{" "}
+              <span>
+                <Link to="/recipe-reviews">
+                  <button className="btn btn-primary">View All Reviews</button>
+                </Link>
+              </span>
+            </h1>
             {recentReviews.length > 0 &&
               recentReviews.map((rev) => {
-                return (
-                  <RecipeReviewScreen recipeRev={rev}/>
-                );
+                return <RecipeReviewScreen recipeRev={rev} key={rev._id} />;
               })}
+            {!recentReviews && <p>No reviews currently for any recipes.</p>}
           </div>
         </>
       )}

@@ -15,6 +15,7 @@ import ProfileScreen from "./components/ProfileScreen";
 import RecipeSearch from "./components/RecipeSearch";
 import ItemDetails from "./components/RecipeSearch/ItemDetails";
 import SearchResults from "./components/RecipeSearch/SearchResults";
+import AllRecipeReviewScreen from "./components/AllRecipeReviewScreen";
 
 // Reducer
 import searchPageReducer from "./reducers/searchReducer";
@@ -45,7 +46,7 @@ function App() {
           <Route path="/search" exact={true} element={<RecipeSearch />} />
           <Route path="/search/:criteria" element={<SearchResults />} />
           <Route path="/details/:id" element={<ItemDetails />} />
-
+          <Route path="/recipe-reviews" element={<AllRecipeReviewScreen />} />
           <Route path="/profile" exact={true} element={<ProfileScreen />} />
           <Route path="/profile/:uid" />
 

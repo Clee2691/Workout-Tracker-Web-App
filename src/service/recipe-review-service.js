@@ -7,6 +7,11 @@ const api = axios.create({
   withCredentials: true,
 });
 
+export const findAllReviews = async () => {
+  const response = await api.get(`${REVAPI}/review`);
+  return response.data;
+}
+
 export const findRecentReviews = async () => {
   const response = await api.get(`${REVAPI}/review/recent`);
   return response.data;
