@@ -8,27 +8,27 @@ const api = axios.create({
 });
 
 export const findRecentReviews = async () => {
-    const response = await api.get(`${REVAPI}/review/recent`);
-    return response.data;
-}
+  const response = await api.get(`${REVAPI}/review/recent`);
+  return response.data;
+};
 
 // Find review by meal Id
 export const findRevByMealId = async (mealId) => {
-  const response = await api.get(`${REVAPI}/review/${mealId}`);
+  const response = await api.get(`${REVAPI}/review/meal/${mealId}`);
+  return response.data;
+};
+
+export const findRevByUId = async (uId) => {
+  const response = await api.get(`${REVAPI}/review/user/${uId}`);
   return response.data;
 };
 
 export const createReview = async (newReview) => {
-    const response = await api.post(`${REVAPI}/review`, newReview);
-    return response.data;
-}
+  const response = await api.post(`${REVAPI}/review`, newReview);
+  return response.data;
+};
 
 export const deleteReview = async (revId) => {
-    const status = await api.delete(`${REVAPI}/review/${revId}`);
-    return status;
-}
-
-export const findRevByUId = async(uId) => {
-    const response = await api.get(`${REVAPI}/review/${uId}`);
-    return response.data;
-}
+  const status = await api.delete(`${REVAPI}/review/${revId}`);
+  return status;
+};

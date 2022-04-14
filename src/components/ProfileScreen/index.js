@@ -19,10 +19,17 @@ const ProfileScreen = () => {
   const loggedInUser = useSelector((state) => state.userReducer);
   const recipeReviews = useSelector((state) => state.reviewReducer);
 
+  const getInitialInfo = async () => {
+    await GetUser(dispatch);
+    if (loggedInUser._id){
+      localStorage.setItem("uid", loggedInUser._id);
+    }
+    await GetRecipeRevsByUId(dispatch, localStorage.getItem("uid"));
+  };
+
   useEffect(() => {
-    GetUser(dispatch);
-    GetRecipeRevsByUId(dispatch, loggedInUser._id);
-  }, []);
+    getInitialInfo();
+  }, [dispatch]);
 
   const handleEditbtn = () => {
     setEditing(true);
@@ -36,7 +43,7 @@ const ProfileScreen = () => {
           <div className="container row mt-4 ms-auto me-auto">
             {/* User profile card on left */}
             <div className="col-sm-4 col-lg-4">
-              <div className="card bg-transparent">
+              <div className="card bg-transparent border">
                 <img
                   className="rounded-circle p-3 img-fluid"
                   src="../images/avatars/profilemale1.jpg"
@@ -118,20 +125,21 @@ const ProfileScreen = () => {
             </div>
 
             <div className="col">
-              <div className="h1 text-center">Workouts</div>
+              <div className="h2 text-center">Workouts</div>
               <ProfileWorkouts />
               <hr></hr>
               <div className="container">
-                <h1 className="text-center mb-2">Your Reviewed Recipes</h1>
+                <h2 className="text-center mb-2">Your Reviewed Recipes</h2>
                 {recipeReviews.length > 0 &&
                   recipeReviews.map((rev) => {
-                    return <RecipeReviewScreen recipeRev={rev} />;
+                    return <RecipeReviewScreen recipeRev={rev} key={rev._id}/>;
                   })}
-                  {
-                    recipeReviews.length < 0 && <div>No reviews! Search for recipes to review them!</div>
-                  }
+                {recipeReviews.length === 0 && (
+                  <div>No reviews! Search for recipes to review them!</div>
+                )}
               </div>
               <hr></hr>
+              <h2 className="text-center">People you Follow</h2>
               <ProfileFollow />
             </div>
           </div>
