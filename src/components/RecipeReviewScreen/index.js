@@ -4,11 +4,8 @@ import { Link } from "react-router-dom";
 import { format, parseISO } from "date-fns";
 
 const RecipeReviewScreen = ({ recipeRev }) => {
-  // If in profile screen, get user's recipe reviews
-  // If on homepage get the 5 most recent reviews
   return (
     <>
-      {/* Map this to a list of reviewed recipes */}
       <div className="card bg-transparent mb-2 border">
         <div className="row g-0">
           <div className="col-md-6 col-lg-4 d-flex align-self-center p-3">

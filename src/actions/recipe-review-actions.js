@@ -5,6 +5,12 @@ export const CREATE_MEAL_REVIEW = "CREATE_MEAL_REVIEW";
 export const DELETE_MEAL_REVIEW = "DELETE_MEAL_REVIEW";
 export const GET_RECENT_REVIEWS = "GET_RECENT_REVIEWS";
 export const GET_USER_RECIPE_REVIEWS = "GET_USER_RECIPE_REVIEWS";
+export const GET_ALL_REVIEWS = "GET_ALL_REVIEWS";
+
+export const GetAllReviews = async () => {
+  const allReviews = await service.findAllReviews();
+  return allReviews;
+}
 
 export const GetRecentReviews = async (dispatch) => {
     const recentReviews = await service.findRecentReviews();
