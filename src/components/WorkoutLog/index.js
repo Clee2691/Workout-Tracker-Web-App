@@ -24,7 +24,12 @@ const WorkoutLog = () => {
     String(todaysDate.getDate()).padStart(2, 0);
 
   const [workoutSets, setWkSets] = useState([
-    { setNum: 0, weight: 0, reps: 0 },
+    {
+      setId: Math.random().toString(20).substring(2, 18),
+      setNum: 0,
+      weight: 0,
+      reps: 0,
+    },
   ]);
 
   const [wkoutInfo, setWkoutInfo] = useState({
@@ -54,15 +59,19 @@ const WorkoutLog = () => {
   const addButtonHandler = (index) => {
     setWkSets([
       ...workoutSets,
-      { setNum: index + 1, weight: 0, reps: 0 },
+      {
+        setId: Math.random().toString(20).substring(2, 18),
+        setNum: index + 1,
+        weight: 0,
+        reps: 0,
+      },
     ]);
   };
 
   const removeBtnHandler = (index) => {
     const currSets = [...workoutSets];
-    const selectedSet = currSets[index];
-    const filtered = currSets.filter((set) => set._id !== selectedSet._id);
-    setWkSets(filtered);
+    currSets.splice(index, 1)
+    setWkSets(currSets);
   };
 
   const saveWorkoutBtnHandler = () => {
@@ -71,7 +80,6 @@ const WorkoutLog = () => {
       ...wkoutInfo,
       sets: workoutSets,
     };
-    console.log(combInfo);
     CreateUserWorkout(dispatch, combInfo);
     alert("Workout Successfully Added!");
   };
@@ -111,8 +119,9 @@ const WorkoutLog = () => {
               />
             </div>
             {workoutSets.map((aSet, arrayIndex) => {
+
               return (
-                <div key={aSet._id}>
+                <div key={aSet.setId}>
                   <div className="input-group mb-2">
                     <label className="form-label me-2" htmlFor="setInput">
                       Set #

@@ -18,19 +18,25 @@ import SearchResults from "./components/RecipeSearch/SearchResults";
 import AllRecipeReviewScreen from "./components/AllRecipeReviewScreen";
 import AllUserScreen from "./components/AllUserScreen";
 import PublicProf from "./components/PublicUserScreen";
+import WorkoutPlanScreen from "./components/WorkoutPlanScreen";
+import WorkoutLog from "./components/WorkoutLog";
+import MealPlanScreen from "./components/MealPlanScreen";
 
 // Reducer
 import searchPageReducer from "./reducers/searchReducer";
 import workoutLogReducer from "./reducers/workoutLogReducer";
-import WorkoutLog from "./components/WorkoutLog";
 import userReducer from "./reducers/userReducer";
 import reviewReducer from "./reducers/reviewReducer";
+import workoutPlanReducer from "./reducers/workoutPlanReducer";
+import mealPlanReducer from "./reducers/mealPlanReducer";
 
 const reducers = combineReducers({
   searchPageReducer,
   workoutLogReducer,
   userReducer,
-  reviewReducer
+  reviewReducer,
+  workoutPlanReducer,
+  mealPlanReducer,
 });
 
 const store = createStore(reducers);
@@ -52,9 +58,12 @@ function App() {
 
           <Route path="/users" element={<AllUserScreen />} />
           <Route path="/profile" exact={true} element={<ProfileScreen />} />
-          <Route path="/profile/:uid" element={<PublicProf/>} />
+          <Route path="/profile/:uid" element={<PublicProf />} />
 
-          <Route path="/workout-log" element={<WorkoutLog/>}/>
+          <Route path="/workout-log" element={<WorkoutLog />} />
+          <Route path="/workoutplans" element={<WorkoutPlanScreen />} />
+
+          <Route path="/mealplans" element={<MealPlanScreen />} />
         </Routes>
       </BrowserRouter>
     </Provider>
