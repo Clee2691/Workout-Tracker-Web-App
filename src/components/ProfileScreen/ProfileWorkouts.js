@@ -1,14 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { format, parse } from "date-fns";
 
-import { DeleteWorkout } from "../../actions/workout-actions";
+import { DeleteWorkout, GetUserWorkouts } from "../../actions/workout-actions";
 
-const ProfileWorkouts = () => {
-  const allWorkouts = useSelector((state) => state.workoutLogReducer);
+const ProfileWorkouts = ({userId}) => {
 
   const dispatch = useDispatch();
+  const allWorkouts = useSelector((state) => state.workoutLogReducer);
+
+  const getUserWorkouts = async () => {
+    await GetUserWorkouts(dispatch, userId);
+  }
+
+  useEffect(() => {
+    getUserWorkouts();
+  },[])
 
   const deleteBtnHandler = (workoutId) => {
     DeleteWorkout(dispatch, workoutId);

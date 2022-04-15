@@ -57,6 +57,16 @@ const NavigationBar = ({ currScreen }) => {
                 RECIPE REVIEWS
               </Link>
             </li>
+            <li className="nav-item">
+              <Link
+                to="/users"
+                className={`nav-link ${
+                  currScreen === "USERS" ? "active" : ""
+                }`}
+              >
+                USERS
+              </Link>
+            </li>
             {loggedInUser && (
               <li className="nav-item">
                 <Link
