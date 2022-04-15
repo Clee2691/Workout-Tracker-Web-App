@@ -8,7 +8,7 @@ const api = axios.create({
 })
 
 export const findAllUsers = async () => {
-    const response = await api.get(`${USER_API}/get`);
+    const response = await api.get(`${USER_API}`);
     return response.data;
 }
 
@@ -16,3 +16,8 @@ export const updateUser = async (newUser) => {
     const response = await api.put(`${USER_API}/${newUser._id}`, newUser);
     return response.data;
 }
+
+export const findUserById = async (uid) => {
+  const response = await api.get(`${USER_API}/userId/${uid}`);
+  return response.data;
+};

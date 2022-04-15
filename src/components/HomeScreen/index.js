@@ -66,7 +66,7 @@ const HomeScreen = () => {
           {/* Logging in will show your logged workouts */}
           <div className="container mt-2 col-md-8 mb-2">
             <h2 className="text-center">Your Recent Workouts</h2>
-            <ProfileWorkouts />
+            <ProfileWorkouts userId = {loggedInUser._id}/>
           </div>
         </>
       )}
