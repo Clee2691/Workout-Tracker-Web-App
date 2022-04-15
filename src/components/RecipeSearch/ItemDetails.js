@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { format, parseISO } from "date-fns";
 
@@ -175,7 +175,10 @@ const ItemDetails = () => {
               recipeReviews.map((review) => {
                 return (
                   <div className="border border-light p-2 mb-2">
-                    <a href="#">{review.userName} </a> -{" "}
+                    <Link to={`/profile/${review.userId}`}>
+                      {review.userName}
+                    </Link>
+                    -
                     <span className="text-muted">
                       {format(parseISO(review.revDate), "dd MMM yyyy")}
                     </span>

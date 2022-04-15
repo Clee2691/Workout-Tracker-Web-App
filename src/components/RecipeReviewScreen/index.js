@@ -26,8 +26,11 @@ const RecipeReviewScreen = ({ recipeRev }) => {
               </h3>
               <hr className="me-2"></hr>
               <p>
-                Reviewed By: <a href="#">{recipeRev.userName}</a> on{" "}
-                {format(parseISO(recipeRev.revDate), "dd MMM yyyy")}
+                Reviewed By:{" "}
+                <Link to={`/profile/${recipeRev.userId}`}>
+                  {recipeRev.userName}
+                </Link>{" "}
+                on {format(parseISO(recipeRev.revDate), "dd MMM yyyy")}
               </p>
               <p>Rating: {recipeRev.starRating}/5</p>
               <p>{recipeRev.revString}</p>
