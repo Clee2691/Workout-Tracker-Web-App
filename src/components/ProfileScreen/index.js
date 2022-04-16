@@ -1,17 +1,22 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { GetUser } from "../../actions/user-actions";
+import { Link } from "react-router-dom";
 import { format, parseISO, parse } from "date-fns";
 
 import NavigationBar from "../NavigationBar";
 import RegisterScreen from "../RegisterScreen";
 import ProfileWorkouts from "./ProfileWorkouts";
-import ProfileFollow from "./ProfileFollow";
 import EditProfile from "./EditProfile";
 import RecipeReviewScreen from "../RecipeReviewScreen";
+import ProfileMealPlans from "./ProfileMealPlans";
+import ProfileWorkoutPlans from "./ProfileWorkoutPlans";
 
-import { useDispatch, useSelector } from "react-redux";
-import { GetUser } from "../../actions/user-actions";
 import { GetRecipeRevsByUId } from "../../actions/recipe-review-actions";
 import { GetUserWorkouts } from "../../actions/workout-actions";
+
+import * as clientTrainerActions from "../../actions/client-trainer-actions";
+import * as clientNutritionActions from "../../actions/client-nutrition-action";
 
 const ProfileScreen = () => {
   const dispatch = useDispatch();
@@ -20,17 +25,40 @@ const ProfileScreen = () => {
   const loggedInUser = useSelector((state) => state.userReducer);
   const recipeReviews = useSelector((state) => state.reviewReducer);
 
+  const [clientTrainer, setClientTrainer] = useState();
+  const [clientNutrition, setClientNutrition] = useState();
+
+  const getAllRelationships = async (role, uid) => {
+    if (role === "trainer") {
+      const allClients = await clientTrainerActions.GetTrainerClients(uid);
+      setClientTrainer(allClients);
+    } else if (role === "nutritionist") {
+      const allClients = await clientNutritionActions.GetNutritionClients(uid);
+      setClientNutrition(allClients);
+    } else if (role === "client") {
+      const trainers = await clientTrainerActions.GetClientTrainers(uid);
+      setClientTrainer(trainers);
+      const nutritionists = await clientNutritionActions.GetClientNutrition(
+        uid
+      );
+      setClientNutrition(nutritionists);
+    }
+  };
+
   const getInitialInfo = async () => {
     await GetUser(dispatch);
-    if (loggedInUser._id){
+    if (loggedInUser._id) {
       localStorage.setItem("uid", loggedInUser._id);
+      localStorage.setItem("role", loggedInUser.userRole);
     }
     await GetRecipeRevsByUId(dispatch, localStorage.getItem("uid"));
     await GetUserWorkouts(dispatch, localStorage.getItem("uid"));
   };
 
   useEffect(() => {
-    getInitialInfo();
+    getInitialInfo().then(() => {
+      getAllRelationships(localStorage.getItem("role"), localStorage.getItem("uid"));
+    });
   }, [dispatch]);
 
   const handleEditbtn = () => {
@@ -45,7 +73,7 @@ const ProfileScreen = () => {
           <div className="container row mt-4 ms-auto me-auto">
             {/* User profile card on left */}
             <div className="col-sm-4 col-lg-4">
-              <div className="card bg-transparent border">
+              <div className="card bg-transparent border mb-4">
                 <img
                   className="rounded-circle p-3 img-fluid"
                   src="../images/avatars/profilemale1.jpg"
@@ -65,11 +93,6 @@ const ProfileScreen = () => {
                   <p className="card-subtitle text-center">
                     Username: {loggedInUser.username}
                   </p>
-
-                  <div className="d-flex justify-content-center flex-wrap">
-                    <p className="me-2">Followers: 300</p>
-                    <p>Following: 100</p>
-                  </div>
                   <hr></hr>
                   <h4 className="mt-2 text-center">About Me:</h4>
                   <p className="card-text">
@@ -114,6 +137,32 @@ const ProfileScreen = () => {
                     </p>
                     <p className="card-text">Email: {loggedInUser.email}</p>
                   </div>
+                  <hr></hr>
+                  <h4>Trainers and Nutritionists:</h4>
+                  <div>
+                    {clientTrainer &&
+                      clientTrainer.map((trainer) => {
+                        return (
+                          <div key={trainer._id}>
+                            
+                            <a href={`/profile/${trainer.trainerId}`}>
+                              {trainer.trainerUserName}
+                            </a>
+                          </div>
+                        );
+                      })}
+                      {
+                        clientNutrition && clientNutrition.map((nutrition) => {
+                          return (
+                            <div key={nutrition._id}>
+                              <a href={`/profile/${nutrition.nutritionistId}`}>
+                                {nutrition.nutritionistUserName}
+                              </a>
+                            </div>
+                          );
+                        })
+                      }
+                  </div>
                 </div>
                 <div className="card-footer bg-transparent text-center">
                   <button
@@ -127,22 +176,59 @@ const ProfileScreen = () => {
             </div>
 
             <div className="col">
-              <div className="h3 text-center">Logged Workouts</div>
-              <ProfileWorkouts />
+              {loggedInUser.userRole === "client" && (
+                <>
+                  <div className="h3 text-center">Your Workouts</div>
+                  <ProfileWorkouts />
+                </>
+              )}
+              {loggedInUser.userRole === "trainer" && (
+                <>
+                  <div className="h3 text-center">Your Workout Plans</div>
+                  <div className="d-flex justify-content-center mb-2">
+                    <Link to="/workoutplans">
+                      <button className="btn btn-primary btn-lg">
+                        <i className="fa-solid fa-plus me-2"></i>Create Workout
+                        Plan
+                      </button>
+                    </Link>
+                  </div>
+                  <ProfileWorkoutPlans />
+                </>
+              )}
+              {loggedInUser.userRole === "nutritionist" && (
+                <>
+                  <div className="h3 text-center">Your Meal Plans</div>
+                  <div className="d-flex justify-content-center mb-2">
+                    <Link to="/mealplans">
+                      <button className="btn btn-primary btn-lg">
+                        <i className="fa-solid fa-plus me-2"></i>Create Meal
+                        Plan
+                      </button>
+                    </Link>
+                  </div>
+                  <ProfileMealPlans />
+                </>
+              )}
+
               <hr></hr>
               <div className="container">
                 <h3 className="text-center mb-2">Your Reviewed Recipes</h3>
                 {recipeReviews.length > 0 &&
                   recipeReviews.map((rev) => {
-                    return <RecipeReviewScreen recipeRev={rev} key={rev._id} />;
+                    return (
+                      <RecipeReviewScreen
+                        recipeRev={{ reviews: rev, uid: loggedInUser._id }}
+                        key={rev._id}
+                      />
+                    );
                   })}
                 {recipeReviews.length === 0 && (
-                  <div>No reviews! Search for recipes to review them!</div>
+                  <div className="text-center">
+                    No reviews! Search for recipes to review them!
+                  </div>
                 )}
               </div>
-              <hr></hr>
-              <h3 className="text-center">People you Follow</h3>
-              <ProfileFollow />
             </div>
           </div>
         </>

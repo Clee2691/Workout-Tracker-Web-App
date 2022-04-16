@@ -37,61 +37,162 @@ const NavigationBar = ({ currScreen }) => {
                 HOME
               </Link>
             </li>
-            <li className="nav-item">
-              <Link
-                to="/search"
-                className={`nav-link ${
-                  currScreen === "SEARCH" ? "active" : ""
-                }`}
+
+            <li className="nav-item dropdown">
+              <a
+                className="nav-link dropdown-toggle"
+                href="#"
+                id="navbarScrollingDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
               >
-                SEARCH
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link
-                to="/recipe-reviews"
-                className={`nav-link ${
-                  currScreen === "RECIPEREVS" ? "active" : ""
-                }`}
+                RECIPES
+              </a>
+              <ul
+                className="dropdown-menu"
+                aria-labelledby="navbarScrollingDropdown"
               >
-                RECIPE REVIEWS
-              </Link>
+                <li className="dropdown-item">
+                  <Link
+                    to="/search"
+                    className={`nav-link ${
+                      currScreen === "SEARCH" ? "active" : ""
+                    }`}
+                  >
+                    SEARCH
+                  </Link>
+                </li>
+                <li className="dropdown-item">
+                  <Link
+                    to="/recipe-reviews"
+                    className={`nav-link ${
+                      currScreen === "RECIPEREVS" ? "active" : ""
+                    }`}
+                  >
+                    RECIPE REVIEWS
+                  </Link>
+                </li>
+              </ul>
             </li>
-            <li className="nav-item">
-              <Link
-                to="/users"
-                className={`nav-link ${
-                  currScreen === "USERS" ? "active" : ""
-                }`}
+
+            <li className="nav-item dropdown">
+              <a
+                className="nav-link dropdown-toggle"
+                href="#"
+                id="navbarScrollingDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
               >
-                USERS
-              </Link>
+                PROFILE
+              </a>
+              <ul
+                className="dropdown-menu"
+                aria-labelledby="navbarScrollingDropdown"
+              >
+                {loggedInUser && (
+                  <li className="dropdown-item">
+                    <Link
+                      to="/profile"
+                      className={`nav-link ${
+                        currScreen === "PROFILE" ? "active" : ""
+                      }`}
+                    >
+                      MY PROFILE
+                    </Link>
+                  </li>
+                )}
+                <li className="dropdown-item">
+                  <Link
+                    to="/users"
+                    className={`nav-link ${
+                      currScreen === "USERS" ? "active" : ""
+                    }`}
+                  >
+                    ALL USERS
+                  </Link>
+                </li>
+              </ul>
             </li>
-            {loggedInUser && (
+
+            {loggedInUser && loggedInUser.userRole === "client" && (
+              <li className="nav-item dropdown">
+                <a
+                  className="nav-link dropdown-toggle"
+                  href="#"
+                  id="navbarScrollingDropdown"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  FITNESS
+                </a>
+                <ul
+                  className="dropdown-menu"
+                  aria-labelledby="navbarScrollingDropdown"
+                >
+                  <li className="dropdown-item">
+                    <Link
+                      to="/workout-log"
+                      className={`nav-link ${
+                        currScreen === "TRACKWORKOUT" ? "active" : ""
+                      }`}
+                    >
+                      WORKOUT LOG
+                    </Link>
+                  </li>
+
+                  <li className="dropdown-item">
+                    <Link
+                      to="/workoutplans"
+                      className={`nav-link ${
+                        currScreen === "WORKOUTPLAN" ? "active" : ""
+                      }`}
+                    >
+                      WORKOUT PLANS
+                    </Link>
+                  </li>
+
+                  <li className="dropdown-item">
+                    <Link
+                      to="/mealplans"
+                      className={`nav-link ${
+                        currScreen === "MEALPLAN" ? "active" : ""
+                      }`}
+                    >
+                      MEAL PLANS
+                    </Link>
+                  </li>
+                </ul>
+              </li>
+            )}
+            {loggedInUser && loggedInUser.userRole === "trainer" && (
               <li className="nav-item">
                 <Link
-                  to="/profile"
+                  to="/workoutplans"
                   className={`nav-link ${
-                    currScreen === "PROFILE" ? "active" : ""
+                    currScreen === "WORKOUTPLAN" ? "active" : ""
                   }`}
                 >
-                  PROFILE
+                  WORKOUT PLANS
                 </Link>
               </li>
             )}
-            {loggedInUser && (
+            {loggedInUser && loggedInUser.userRole === "nutritionist" && (
               <li className="nav-item">
                 <Link
-                  to="/workout-log"
+                  to="/mealplans"
                   className={`nav-link ${
-                    currScreen === "TRACKWORKOUT" ? "active" : ""
+                    currScreen === "MEALPLAN" ? "active" : ""
                   }`}
                 >
-                  WORKOUT
+                  MEAL PLANS
                 </Link>
               </li>
             )}
           </ul>
+
           {!loggedInUser && (
             <div className="d-flex">
               <Link to="/login" className="btn btn-outline-success me-2">

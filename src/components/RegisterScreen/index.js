@@ -123,21 +123,6 @@ const RegisterScreen = () => {
                 placeholder="Confirm Password..."
               />
             </div>
-
-            <div className="text-danger small ms-2 me-2">
-              <p className="mb-1 lead">Password Requirements:</p>
-              <div className="d-flex justify-content-between">
-                <p className="mb-1">Minimum 8 Characters</p>
-                <p className="mb-1">1 number (0-9)</p>
-              </div>
-              <div className="d-flex justify-content-between">
-                <p className="mb-1">1 lowercase letter (a-z)</p>
-                <p className="mb-1">1 uppercase letter (A-Z)</p>
-              </div>
-              <div>
-                <p className="mb-1">1 special character (!@#$%^*())</p>
-              </div>
-            </div>
             <div>Sign Up As:</div>
             <div className="form-check">
               <input
@@ -166,6 +151,20 @@ const RegisterScreen = () => {
               ></input>
               <label className="form-check-label" htmlFor="trainer">
                 Trainer
+              </label>
+            </div>
+            <div className="form-check">
+              <input
+                className="form-check-input"
+                type="radio"
+                name="userTypeRadio"
+                id="nutritionist"
+                onChange={(e) => {
+                  inputChangeHandler(e);
+                }}
+              ></input>
+              <label className="form-check-label" htmlFor="nutritionist">
+                Nutritionist
               </label>
             </div>
 
