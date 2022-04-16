@@ -19,6 +19,7 @@ const WorkoutPlanCard = ({workout}) => {
                     {workout.trainerName}
                   </a>
                 </div>
+                <hr className="ms-4 me-4"></hr>
                 {workout.exercises.map((exercise) => {
                   return (
                     <p className="fs-5 card-text" key={exercise._id}>

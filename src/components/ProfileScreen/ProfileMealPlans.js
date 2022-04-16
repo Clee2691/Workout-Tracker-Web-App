@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
 
 import {
   DeleteMealPlan,
@@ -51,16 +50,19 @@ const ProfileMealPlans = ({ userId }) => {
                     </div>
                   </div>
                 </div>
-                <div className="card-footer d-flex justify-content-center bg-info">
-                  <button
-                    className="btn btn-danger"
-                    onClick={() => {
-                      deleteBtnHandler(mealPlan._id);
-                    }}
-                  >
-                    DELETE
-                  </button>
-                </div>
+                {allMealPlans.nutritionistId ===
+                  localStorage.getItem("uid") && (
+                  <div className="card-footer d-flex justify-content-center bg-info">
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => {
+                        deleteBtnHandler(mealPlan._id);
+                      }}
+                    >
+                      DELETE
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           );

@@ -50,7 +50,7 @@ const ProfileWorkoutPlans = ({ userId }) => {
                     </div>
                   </div>
                 </div>
-                {wkoutPlan.trainerId === userId && (
+                {wkoutPlan.trainerId === localStorage.getItem("uid") && (
                   <div className="card-footer d-flex justify-content-center bg-info">
                     <button
                       className="btn btn-danger"

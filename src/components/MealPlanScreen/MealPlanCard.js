@@ -1,9 +1,9 @@
 const MealPlanCard = ({ meal }) => {
   return (
     <div key={meal._id}>
-      <div className="card bg-success mb-2 border ms-4 me-4">
+      <div className="card bg-success mb-2 border ms-auto me-auto col-md-8">
         <div className="row g-0">
-          <div className="col-md-5 col-lg-4 d-flex align-self-center">
+          <div className="col-md-5 col-lg-4 d-flex align-self-center justify-content-center">
             <img
               className="img-fluid rounded-circle p-2"
               src="../images/food/mealicon.png"
@@ -21,6 +21,7 @@ const MealPlanCard = ({ meal }) => {
                   {meal.nutritionistName}
                 </a>
               </div>
+              <hr className="ms-4 me-4"></hr>
               {meal.foods.map((food) => {
                 return (
                   <p className="fs-5 card-text" key={food._id}>
