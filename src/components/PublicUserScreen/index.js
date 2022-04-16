@@ -143,7 +143,7 @@ const PublicProf = () => {
       <>
         <NavigationBar />
         {currUser && (
-          <div className="container row mt-4 ms-auto me-auto">
+          <div className="container row mt-4 ms-auto me-auto mb-2">
             <div className="col-sm-4 col-lg-4">
               <div className="card bg-transparent border">
                 <img
@@ -234,7 +234,7 @@ const PublicProf = () => {
                   {/* Has clients */}
                   {(currUser.userRole === "trainer" ||
                     currUser.userRole === "nutritionist") &&
-                    allRelations &&
+                    allRelations && allRelations.length > 0 &&
                     allRelations.map((oneClient) => {
                       return (
                         <div key={oneClient._id}>
@@ -273,7 +273,7 @@ const PublicProf = () => {
 
                   {/* Nutritionists */}
                   {currUser.userRole === "client" && <h4>Nutritionists: </h4>}
-                  {currUser.userRole === "nutritionist" &&
+                  {currUser.userRole === "client" &&
                     clientNutritionists &&
                     clientNutritionists.map((nutritionist) => {
                       return (
@@ -294,7 +294,7 @@ const PublicProf = () => {
               </div>
             </div>
 
-            <div className="col">
+            <div className="col mb-2">
               <div className="container">
                 <h3 className="text-center mb-2">Reviewed Recipes</h3>
                 {userRecipeReviews.length > 0 &&

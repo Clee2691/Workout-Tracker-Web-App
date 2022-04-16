@@ -29,7 +29,7 @@ const RecipeReviewScreen = ({ recipeRev }) => {
               <h3 className="card-title mt-2">
                 Recipe:
                 <Link to={`/details/${recipeRev.reviews.mealId}`}>
-                  <span className="text-decoration-none ms-1">
+                  <span className="text-decoration-none fs-4 ms-1">
                     {recipeRev.reviews.mealName}
                   </span>
                 </Link>
@@ -45,15 +45,15 @@ const RecipeReviewScreen = ({ recipeRev }) => {
                 )}
               </h3>
               <hr className="me-2"></hr>
-              <p>
+              <p className="fs-4">
                 Reviewed By:{" "}
                 <Link to={`/profile/${recipeRev.reviews.userId}`}>
                   {recipeRev.reviews.userName}
                 </Link>{" "}
                 on {format(parseISO(recipeRev.reviews.revDate), "dd MMM yyyy")}
               </p>
-              <p>Rating: {recipeRev.reviews.starRating}/5</p>
-              <p>{recipeRev.reviews.revString}</p>
+              <p className="fs-4">Rating: {recipeRev.reviews.starRating}/5</p>
+              <p className="fs-4">{recipeRev.reviews.revString}</p>
             </div>
           </div>
         </div>

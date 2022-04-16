@@ -57,7 +57,10 @@ const ProfileScreen = () => {
 
   useEffect(() => {
     getInitialInfo().then(() => {
-      getAllRelationships(localStorage.getItem("role"), localStorage.getItem("uid"));
+      getAllRelationships(
+        localStorage.getItem("role"),
+        localStorage.getItem("uid")
+      );
     });
   }, [dispatch]);
 
@@ -138,31 +141,61 @@ const ProfileScreen = () => {
                     <p className="card-text">Email: {loggedInUser.email}</p>
                   </div>
                   <hr></hr>
-                  <h4>Trainers and Nutritionists:</h4>
-                  <div>
-                    {clientTrainer &&
-                      clientTrainer.map((trainer) => {
-                        return (
-                          <div key={trainer._id}>
-                            
-                            <a href={`/profile/${trainer.trainerId}`}>
-                              {trainer.trainerUserName}
-                            </a>
-                          </div>
-                        );
-                      })}
-                      {
-                        clientNutrition && clientNutrition.map((nutrition) => {
+                  {loggedInUser.userRole === "client" && (
+                    <div>
+                      <h4>Trainers and Nutritionists:</h4>
+                      {clientTrainer &&
+                        clientTrainer.map((trainer) => {
                           return (
-                            <div key={nutrition._id}>
-                              <a href={`/profile/${nutrition.nutritionistId}`}>
-                                {nutrition.nutritionistUserName}
+                            <div key={trainer._id}>
+                              <a href={`/profile/${trainer.trainerId}`}>
+                                Trainer - {trainer.trainerUserName}
                               </a>
                             </div>
                           );
-                        })
-                      }
-                  </div>
+                        })}
+                      {clientNutrition &&
+                        clientNutrition.map((nutrition) => {
+                          return (
+                            <div key={nutrition._id}>
+                              <a href={`/profile/${nutrition.nutritionistId}`}>
+                                Nutritionist - {nutrition.nutritionistUserName}
+                              </a>
+                            </div>
+                          );
+                        })}
+                    </div>
+                  )}
+                  {loggedInUser.userRole === "trainer" && (
+                    <div>
+                      <h4>Clients:</h4>
+                      {clientTrainer &&
+                        clientTrainer.map((client) => {
+                          return (
+                            <div key={client._id}>
+                              <a href={`/profile/${client.clientId}`}>
+                                {client.clientUserName}
+                              </a>
+                            </div>
+                          );
+                        })}
+                    </div>
+                  )}
+                  {loggedInUser.userRole === "nutritionist" && (
+                    <div>
+                      <h4>Clients:</h4>
+                      {clientNutrition &&
+                        clientNutrition.map((client) => {
+                          return (
+                            <div key={client._id}>
+                              <a href={`/profile/${client.clientId}`}>
+                                {client.clientUserName}
+                              </a>
+                            </div>
+                          );
+                        })}
+                    </div>
+                  )}
                 </div>
                 <div className="card-footer bg-transparent text-center">
                   <button

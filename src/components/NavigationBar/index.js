@@ -16,6 +16,7 @@ const NavigationBar = ({ currScreen }) => {
   }, [dispatch]);
 
   const clearUser = () => {
+    localStorage.clear();
     LogoutUser(dispatch);
     navigate("/login");
   };
@@ -111,6 +112,47 @@ const NavigationBar = ({ currScreen }) => {
                     }`}
                   >
                     ALL USERS
+                  </Link>
+                </li>
+              </ul>
+            </li>
+
+            {/* Fitness Links */}
+            <li className="nav-item dropdown">
+              <a
+                className="nav-link dropdown-toggle"
+                href="#"
+                id="navbarScrollingDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                FITNESS
+              </a>
+              <ul
+                className="dropdown-menu"
+                aria-labelledby="navbarScrollingDropdown"
+              >
+                
+                  <li className="dropdown-item">
+                    <Link
+                      to="/workoutplans"
+                      className={`nav-link ${
+                        currScreen === "WORKOUTPLAN" ? "active" : ""
+                      }`}
+                    >
+                      WORKOUT PLANS
+                    </Link>
+                  </li>
+                
+                <li className="dropdown-item">
+                  <Link
+                    to="/mealplans"
+                    className={`nav-link ${
+                      currScreen === "MEALPLAN" ? "active" : ""
+                    }`}
+                  >
+                    MEAL PLANS
                   </Link>
                 </li>
               </ul>
