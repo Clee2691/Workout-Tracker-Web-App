@@ -1,0 +1,38 @@
+
+const WorkoutPlanCard = ({workout}) => {
+    return (
+      <div key={workout._id}>
+        <div className="card bg-info mb-2 border ms-4 me-4">
+          <div className="row g-0">
+            <div className="col-md-5 col-lg-4 d-flex align-self-center">
+              <img
+                className="img-fluid rounded-circle p-2"
+                src="../images/workout/workoutplan.jpg"
+              ></img>
+            </div>
+            <div className="col-md d-flex">
+              <div className="card-body text-center p-1 mt-4">
+                <h2 className="card-title">{workout.name}</h2>
+                <div>
+                  Plan created by:{" "}
+                  <a href={`/profile/${workout.trainerId}`} className="text-decoration-none text-dark">
+                    {workout.trainerName}
+                  </a>
+                </div>
+                {workout.exercises.map((exercise) => {
+                  return (
+                    <p className="fs-5 card-text" key={exercise._id}>
+                      Exercise: {exercise.exName} | Sets: {exercise.exNumSets} x
+                      Reps: {exercise.exNumReps}
+                    </p>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+}
+
+export default WorkoutPlanCard;

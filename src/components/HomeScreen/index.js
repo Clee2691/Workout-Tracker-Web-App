@@ -13,8 +13,8 @@ import { GetRecentReviews } from "../../actions/recipe-review-actions";
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
-  const loggedInUser = useSelector(state => state.userReducer);
-  const recentReviews = useSelector(state => state.reviewReducer);
+  const loggedInUser = useSelector((state) => state.userReducer);
+  const recentReviews = useSelector((state) => state.reviewReducer);
 
   useEffect(() => {
     GetUser(dispatch);
@@ -48,7 +48,12 @@ const HomeScreen = () => {
             </h1>
             {recentReviews.length > 0 &&
               recentReviews.map((rev) => {
-                return <RecipeReviewScreen recipeRev={{reviews:rev}} key={rev._id} />;
+                return (
+                  <RecipeReviewScreen
+                    recipeRev={{ reviews: rev }}
+                    key={rev._id}
+                  />
+                );
               })}
             {!recentReviews && <p>No reviews currently for any recipes.</p>}
           </div>
@@ -77,6 +82,13 @@ const HomeScreen = () => {
         <>
           <div className="container mt-2 col-md-8 mb-2">
             <h2 className="text-center">Your Workout Plans</h2>
+            <div className="text-center">
+              <Link to="/workoutplans">
+                <button className="btn btn-primary me-2 mb-2">
+                  <i className="fa fa-plus me-2"></i> Create Workout Plan
+                </button>
+              </Link>
+            </div>
             <ProfileWorkoutPlans userId={loggedInUser._id} />
           </div>
         </>
@@ -86,10 +98,14 @@ const HomeScreen = () => {
         <>
           <div className="container mt-2 col-md-8 mb-2">
             <h2 className="text-center">Your Meal Plans</h2>
-            <Link to="/mealplans" className="d-flex justify-content-center">
-              <button className="btn btn-success me-2"><i className="fa fa-plus"></i>Create Meal Plan</button>
-            </Link>
-            
+            <div className="text-center mb-2">
+              <Link to="/mealplans">
+                <button className="btn btn-success me-2">
+                  <i className="fa fa-plus"></i>Create Meal Plan
+                </button>
+              </Link>
+            </div>
+
             <ProfileMealPlans userId={loggedInUser._id} />
           </div>
         </>
