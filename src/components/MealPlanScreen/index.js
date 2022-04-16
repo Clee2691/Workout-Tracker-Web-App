@@ -200,7 +200,6 @@ const MealPlanScreen = () => {
       {/* All workout plans can be seen by anyone */}
       <hr className="ms-4 me-4"></hr>
       <div className="container mt-2">
-        <h2 className="text-center">All Meal Plans</h2>
         {allMealPlans &&
           allMealPlans.map((plan) => {
             return (

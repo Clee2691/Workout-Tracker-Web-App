@@ -50,15 +50,15 @@ function App() {
           <Route path="/home" exact={true} element={<HomeScreen />} />
           <Route path="/login" exact={true} element={<LoginScreen />} />
           <Route path="/register" exact={true} element={<RegisterScreen />} />
-          {/* Search page routes */}
+
           <Route path="/search" exact={true} element={<RecipeSearch />} />
           <Route path="/search/:criteria" element={<SearchResults />} />
           <Route path="/details/:id" element={<ItemDetails />} />
           <Route path="/recipe-reviews" element={<AllRecipeReviewScreen />} />
 
           <Route path="/users" element={<AllUserScreen />} />
-          <Route path="/profile" exact={true} element={<ProfileScreen />} />
           <Route path="/profile/:uid" element={<PublicProf />} />
+          <Route path="/profile" element={<ProfileScreen />} />
 
           <Route path="/workout-log" element={<WorkoutLog />} />
           <Route path="/workoutplans" element={<WorkoutPlanScreen />} />

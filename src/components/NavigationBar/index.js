@@ -117,15 +117,54 @@ const NavigationBar = ({ currScreen }) => {
             </li>
 
             {loggedInUser && loggedInUser.userRole === "client" && (
-              <li className="nav-item">
-                <Link
-                  to="/workout-log"
-                  className={`nav-link ${
-                    currScreen === "TRACKWORKOUT" ? "active" : ""
-                  }`}
+              <li className="nav-item dropdown">
+                <a
+                  className="nav-link dropdown-toggle"
+                  href="#"
+                  id="navbarScrollingDropdown"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
                 >
-                  WORKOUT LOG
-                </Link>
+                  FITNESS
+                </a>
+                <ul
+                  className="dropdown-menu"
+                  aria-labelledby="navbarScrollingDropdown"
+                >
+                  <li className="dropdown-item">
+                    <Link
+                      to="/workout-log"
+                      className={`nav-link ${
+                        currScreen === "TRACKWORKOUT" ? "active" : ""
+                      }`}
+                    >
+                      WORKOUT LOG
+                    </Link>
+                  </li>
+
+                  <li className="dropdown-item">
+                    <Link
+                      to="/workoutplans"
+                      className={`nav-link ${
+                        currScreen === "WORKOUTPLAN" ? "active" : ""
+                      }`}
+                    >
+                      WORKOUT PLANS
+                    </Link>
+                  </li>
+
+                  <li className="dropdown-item">
+                    <Link
+                      to="/mealplans"
+                      className={`nav-link ${
+                        currScreen === "MEALPLAN" ? "active" : ""
+                      }`}
+                    >
+                      MEAL PLANS
+                    </Link>
+                  </li>
+                </ul>
               </li>
             )}
             {loggedInUser && loggedInUser.userRole === "trainer" && (

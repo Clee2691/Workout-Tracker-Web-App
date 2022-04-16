@@ -43,7 +43,6 @@ const WorkoutPlanScreen = () => {
   const inputChangeHandler = (event) => {
     const { name, value } = event.target;
     setWorkoutPlan({ [name]: value });
-    console.log(workoutplan);
   };
 
   const addButtonHandler = () => {

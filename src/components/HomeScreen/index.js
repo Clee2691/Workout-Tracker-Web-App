@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import NavigationBar from "../NavigationBar";
 import ProfileWorkouts from "../ProfileScreen/ProfileWorkouts";
 import RecipeReviewScreen from "../RecipeReviewScreen";
+import ProfileMealPlans from "../ProfileScreen/ProfileMealPlans";
+import ProfileWorkoutPlans from "../ProfileScreen/ProfileWorkoutPlans";
 
 import { GetUser } from "../../actions/user-actions";
 import { GetRecentReviews } from "../../actions/recipe-review-actions";
@@ -30,7 +32,7 @@ const HomeScreen = () => {
               SwoleMate's Workout Log
             </h1>
             <h3 className="subtitle-heading text-center">
-              Log in or sign-up to start tracking your workouts!
+              Log in or sign-up to access all features!
             </h3>
           </div>
 
@@ -46,7 +48,7 @@ const HomeScreen = () => {
             </h1>
             {recentReviews.length > 0 &&
               recentReviews.map((rev) => {
-                return <RecipeReviewScreen recipeRev={rev} key={rev._id} />;
+                return <RecipeReviewScreen recipeRev={{reviews:rev}} key={rev._id} />;
               })}
             {!recentReviews && <p>No reviews currently for any recipes.</p>}
           </div>
@@ -57,16 +59,38 @@ const HomeScreen = () => {
           <div className="banner-logo">
             <div className="background-banner" />
             <h1 className="home-heading text-center">
-              Welcome back {loggedInUser.userName}
+              Welcome back {loggedInUser.username}
             </h1>
-            <h3 className="subtitle-heading text-center">
-              Scroll down to start logging your workouts!
-            </h3>
           </div>
-          {/* Logging in will show your logged workouts */}
+        </>
+      )}
+      {loggedInUser && loggedInUser.userRole === "client" && (
+        <>
           <div className="container mt-2 col-md-8 mb-2">
             <h2 className="text-center">Your Recent Workouts</h2>
-            <ProfileWorkouts userId = {loggedInUser._id}/>
+            <ProfileWorkouts userId={loggedInUser._id} />
+          </div>
+        </>
+      )}
+
+      {loggedInUser && loggedInUser.userRole === "trainer" && (
+        <>
+          <div className="container mt-2 col-md-8 mb-2">
+            <h2 className="text-center">Your Workout Plans</h2>
+            <ProfileWorkoutPlans userId={loggedInUser._id} />
+          </div>
+        </>
+      )}
+
+      {loggedInUser && loggedInUser.userRole === "nutritionist" && (
+        <>
+          <div className="container mt-2 col-md-8 mb-2">
+            <h2 className="text-center">Your Meal Plans</h2>
+            <Link to="/mealplans" className="d-flex justify-content-center">
+              <button className="btn btn-success me-2"><i className="fa fa-plus"></i>Create Meal Plan</button>
+            </Link>
+            
+            <ProfileMealPlans userId={loggedInUser._id} />
           </div>
         </>
       )}

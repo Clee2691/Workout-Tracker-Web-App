@@ -25,7 +25,12 @@ const AllRecipeReviewScreen = () => {
         <div className="container-fluid mt-2">
           <h1 className="text-center">All Recipe Reviews</h1>
           {allRevs.length > 0 && allRevs.map((rev) => {
-              return <RecipeReviewScreen recipeRev={rev} key={rev._id} />;
+              return (
+                <RecipeReviewScreen
+                  recipeRev={{ reviews: rev }}
+                  key={rev._id}
+                />
+              );
           })}
         </div>
       </>
