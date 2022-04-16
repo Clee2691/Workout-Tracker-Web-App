@@ -12,6 +12,7 @@ import { GetRecipeRevsByUId } from "../../actions/recipe-review-actions";
 import { GetUser, GetUserByID } from "../../actions/user-actions";
 import * as clientTrainerActions from "../../actions/client-trainer-actions";
 import * as clientNutritionActions from "../../actions/client-nutrition-action";
+import ProfileScreen from "../ProfileScreen";
 
 const PublicProf = () => {
   const dispatch = useDispatch();
@@ -137,7 +138,7 @@ const PublicProf = () => {
     }
   };
 
-  if (!loggedInUser || loggedInUser._id !== uid) {
+  if (!loggedInUser || localStorage.getItem("uid") !== uid) {
     return (
       <>
         <NavigationBar />
@@ -247,7 +248,8 @@ const PublicProf = () => {
                   {/* No clients */}
                   {(currUser.userRole === "trainer" ||
                     currUser.userRole === "nutritionist") &&
-                    allRelations && allRelations.length < 1 && <p>No clients yet!</p>}
+                    allRelations &&
+                    allRelations.length < 1 && <p>No clients yet!</p>}
 
                   {/* Client Trainers/ Nutritionists */}
                   {currUser.userRole === "client" && <h4>Trainers: </h4>}
@@ -313,13 +315,13 @@ const PublicProf = () => {
                 {currUser.userRole === "trainer" && (
                   <>
                     <div className="h3 text-center">Your Workout Plans</div>
-                    <ProfileWorkoutPlans />
+                    <ProfileWorkoutPlans userId={uid} />
                   </>
                 )}
                 {currUser.userRole === "nutritionist" && (
                   <>
                     <div className="h3 text-center">Your Meal Plans</div>
-                    <ProfileMealPlans />
+                    <ProfileMealPlans userId={uid} />
                   </>
                 )}
               </div>
@@ -328,6 +330,8 @@ const PublicProf = () => {
         )}
       </>
     );
+  } else if (localStorage.getItem("uid") === uid) {
+    return <ProfileScreen />;
   } else {
     return null;
   }

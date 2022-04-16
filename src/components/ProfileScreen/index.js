@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { GetUser } from "../../actions/user-actions";
 import { Link } from "react-router-dom";
 import { format, parseISO, parse } from "date-fns";
 
@@ -7,13 +9,14 @@ import RegisterScreen from "../RegisterScreen";
 import ProfileWorkouts from "./ProfileWorkouts";
 import EditProfile from "./EditProfile";
 import RecipeReviewScreen from "../RecipeReviewScreen";
-
-import { useDispatch, useSelector } from "react-redux";
-import { GetUser } from "../../actions/user-actions";
-import { GetRecipeRevsByUId } from "../../actions/recipe-review-actions";
-import { GetUserWorkouts } from "../../actions/workout-actions";
 import ProfileMealPlans from "./ProfileMealPlans";
 import ProfileWorkoutPlans from "./ProfileWorkoutPlans";
+
+import { GetRecipeRevsByUId } from "../../actions/recipe-review-actions";
+import { GetUserWorkouts } from "../../actions/workout-actions";
+
+import * as clientTrainerActions from "../../actions/client-trainer-actions";
+import * as clientNutritionActions from "../../actions/client-nutrition-action";
 
 const ProfileScreen = () => {
   const dispatch = useDispatch();
@@ -22,17 +25,40 @@ const ProfileScreen = () => {
   const loggedInUser = useSelector((state) => state.userReducer);
   const recipeReviews = useSelector((state) => state.reviewReducer);
 
+  const [clientTrainer, setClientTrainer] = useState();
+  const [clientNutrition, setClientNutrition] = useState();
+
+  const getAllRelationships = async (role, uid) => {
+    if (role === "trainer") {
+      const allClients = await clientTrainerActions.GetTrainerClients(uid);
+      setClientTrainer(allClients);
+    } else if (role === "nutritionist") {
+      const allClients = await clientNutritionActions.GetNutritionClients(uid);
+      setClientNutrition(allClients);
+    } else if (role === "client") {
+      const trainers = await clientTrainerActions.GetClientTrainers(uid);
+      setClientTrainer(trainers);
+      const nutritionists = await clientNutritionActions.GetClientNutrition(
+        uid
+      );
+      setClientNutrition(nutritionists);
+    }
+  };
+
   const getInitialInfo = async () => {
     await GetUser(dispatch);
     if (loggedInUser._id) {
       localStorage.setItem("uid", loggedInUser._id);
+      localStorage.setItem("role", loggedInUser.userRole);
     }
     await GetRecipeRevsByUId(dispatch, localStorage.getItem("uid"));
     await GetUserWorkouts(dispatch, localStorage.getItem("uid"));
   };
 
   useEffect(() => {
-    getInitialInfo();
+    getInitialInfo().then(() => {
+      getAllRelationships(localStorage.getItem("role"), localStorage.getItem("uid"));
+    });
   }, [dispatch]);
 
   const handleEditbtn = () => {
@@ -110,6 +136,32 @@ const ProfileScreen = () => {
                       Phone #: {loggedInUser.sensitiveInfo.phoneNumber}
                     </p>
                     <p className="card-text">Email: {loggedInUser.email}</p>
+                  </div>
+                  <hr></hr>
+                  <h4>Trainers and Nutritionists:</h4>
+                  <div>
+                    {clientTrainer &&
+                      clientTrainer.map((trainer) => {
+                        return (
+                          <div key={trainer._id}>
+                            
+                            <a href={`/profile/${trainer.trainerId}`}>
+                              {trainer.trainerUserName}
+                            </a>
+                          </div>
+                        );
+                      })}
+                      {
+                        clientNutrition && clientNutrition.map((nutrition) => {
+                          return (
+                            <div key={nutrition._id}>
+                              <a href={`/profile/${nutrition.nutritionistId}`}>
+                                {nutrition.nutritionistUserName}
+                              </a>
+                            </div>
+                          );
+                        })
+                      }
                   </div>
                 </div>
                 <div className="card-footer bg-transparent text-center">
