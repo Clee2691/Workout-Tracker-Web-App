@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
@@ -13,23 +13,26 @@ import { GetRecentReviews } from "../../actions/recipe-review-actions";
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
+  const [currUser, setCurrUser] = useState();
   const loggedInUser = useSelector((state) => state.userReducer);
   const recentReviews = useSelector((state) => state.reviewReducer);
 
   useEffect(() => {
-    GetUser(dispatch);
+    GetUser(dispatch).then(() => {
+      setCurrUser(loggedInUser);
+    });
     GetRecentReviews(dispatch);
     console.log(loggedInUser);
   }, [dispatch]);
 
   const getUser = () => {
-    console.log(loggedInUser);
+    console.log(currUser);
   }
 
   return (
     <>
       <NavigationBar currScreen={"HOME"} />
-      {!loggedInUser && (
+      {!currUser && (
         <>
           <div className="banner-logo">
             <div className="background-banner" />
@@ -65,7 +68,7 @@ const HomeScreen = () => {
           </div>
         </>
       )}
-      {loggedInUser && (
+      {currUser && (
         <>
           <div className="banner-logo">
             <div className="background-banner" />
@@ -75,7 +78,7 @@ const HomeScreen = () => {
           </div>
         </>
       )}
-      {loggedInUser && loggedInUser.userRole === "client" && (
+      {currUser && loggedInUser.userRole === "client" && (
         <>
           <div className="container mt-2 col-md-8 mb-2">
             <h2 className="text-center">Your Recent Workouts</h2>
@@ -84,7 +87,7 @@ const HomeScreen = () => {
         </>
       )}
 
-      {loggedInUser && loggedInUser.userRole === "trainer" && (
+      {currUser && loggedInUser.userRole === "trainer" && (
         <>
           <div className="container mt-2 col-md-6 mb-2">
             <h2 className="text-center">Your Workout Plans</h2>
@@ -100,7 +103,7 @@ const HomeScreen = () => {
         </>
       )}
 
-      {loggedInUser && loggedInUser.userRole === "nutritionist" && (
+      {currUser && loggedInUser.userRole === "nutritionist" && (
         <>
           <div className="container mt-2 col-md-6 mb-2">
             <h2 className="text-center">Your Meal Plans</h2>
