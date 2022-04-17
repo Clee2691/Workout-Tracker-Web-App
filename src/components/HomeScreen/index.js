@@ -19,10 +19,9 @@ const HomeScreen = () => {
 
   useEffect(() => {
     GetUser(dispatch).then(() => {
-      setCurrUser(loggedInUser);
+      console.log(loggedInUser);
     });
     GetRecentReviews(dispatch);
-    console.log(loggedInUser);
   }, [dispatch]);
 
   const getUser = () => {
