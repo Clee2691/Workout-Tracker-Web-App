@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+
 import NavigationBar from "../NavigationBar";
+import ProfileScreen from ".";
 
 import { GetUser, UpdateUser } from "../../actions/user-actions";
-import ProfileScreen from ".";
 
 const EditProfile = ({ isEdit }) => {
   const dispatch = useDispatch();
@@ -211,7 +213,10 @@ const EditProfile = ({ isEdit }) => {
           </div>
         </div>
         <footer className="text-center mb-2">
-          &copy; Calvin Lee 2022 - <a href="/privacypol">Privacy Policy</a>
+          &copy; Calvin Lee 2022 -
+          <Link to="/privacypol" className="text-decoration-none">
+            <span className="ms-2">Privacy Policy</span>
+          </Link>
         </footer>
       </div>
     );

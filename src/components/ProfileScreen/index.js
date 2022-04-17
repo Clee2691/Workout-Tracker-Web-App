@@ -148,9 +148,9 @@ const ProfileScreen = () => {
                         clientTrainer.map((trainer) => {
                           return (
                             <div key={trainer._id}>
-                              <a href={`/profile/${trainer.trainerId}`}>
+                              <Link to={`/profile/${trainer.trainerId}`}>
                                 Trainer - {trainer.trainerUserName}
-                              </a>
+                              </Link>
                             </div>
                           );
                         })}
@@ -158,9 +158,9 @@ const ProfileScreen = () => {
                         clientNutrition.map((nutrition) => {
                           return (
                             <div key={nutrition._id}>
-                              <a href={`/profile/${nutrition.nutritionistId}`}>
+                              <Link to={`/profile/${nutrition.nutritionistId}`}>
                                 Nutritionist - {nutrition.nutritionistUserName}
-                              </a>
+                              </Link>
                             </div>
                           );
                         })}
@@ -173,9 +173,9 @@ const ProfileScreen = () => {
                         clientTrainer.map((client) => {
                           return (
                             <div key={client._id}>
-                              <a href={`/profile/${client.clientId}`}>
+                              <Link to={`/profile/${client.clientId}`}>
                                 {client.clientUserName}
-                              </a>
+                              </Link>
                             </div>
                           );
                         })}
@@ -188,9 +188,9 @@ const ProfileScreen = () => {
                         clientNutrition.map((client) => {
                           return (
                             <div key={client._id}>
-                              <a href={`/profile/${client.clientId}`}>
+                              <Link to={`/profile/${client.clientId}`}>
                                 {client.clientUserName}
-                              </a>
+                              </Link>
                             </div>
                           );
                         })}
@@ -265,7 +265,10 @@ const ProfileScreen = () => {
             </div>
           </div>
           <footer className="text-center mb-2">
-            &copy; Calvin Lee 2022 - <a href="/privacypol">Privacy Policy</a>
+            &copy; Calvin Lee 2022 -
+            <Link to="/privacypol" className="text-decoration-none">
+              <span className="ms-2">Privacy Policy</span>
+            </Link>
           </footer>
         </>
       );
