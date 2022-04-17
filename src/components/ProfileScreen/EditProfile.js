@@ -210,6 +210,9 @@ const EditProfile = ({ isEdit }) => {
             </div>
           </div>
         </div>
+        <footer className="text-center mb-2">
+          &copy; Calvin Lee 2022 - <a href="/privacypol">Privacy Policy</a>
+        </footer>
       </div>
     );
   }
