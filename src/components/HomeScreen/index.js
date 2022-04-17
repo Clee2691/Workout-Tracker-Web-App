@@ -21,7 +21,7 @@ const HomeScreen = () => {
     GetUser(dispatch).then(() => {
       console.log(loggedInUser);
     });
-    GetRecentReviews(dispatch);
+    //GetRecentReviews(dispatch);
   }, [dispatch]);
 
   const getUser = () => {
