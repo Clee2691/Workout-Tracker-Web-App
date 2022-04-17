@@ -17,6 +17,7 @@ const WorkoutPlanScreen = () => {
 
   const allWorkoutPlans = useSelector((state) => state.workoutPlanReducer);
 
+  const [formErrors, setFormErrors] = useState({});
   const [workoutplan, setWorkoutPlan] = useState();
   const [exerciseList, setExerciseList] = useState([
     {
@@ -68,6 +69,42 @@ const WorkoutPlanScreen = () => {
     setExerciseList(filteredArray);
   };
 
+  const planValidation = (thePlan) => {
+    let errorList = { ...formErrors };
+
+    if (!thePlan.name) {
+      errorList.planNameErr = "Plan must have a name!";
+    } else if (thePlan.name && formErrors.planNameErr) {
+      delete errorList.planNameErr;
+    }
+
+    //exercises need a name and sets/reps need to be more than 0
+    thePlan.exercises.forEach((ex) => {
+      if (!ex.exName) {
+        errorList.exnameerr = "Exercises must have a name!";
+      } else {
+        delete errorList.exnameerr;
+      }
+
+      if (!ex.exNumSets > 0) {
+        errorList.exsetserr = "Exercise sets must be 1 or more!";
+      } else {
+        delete errorList.exsetserr;
+      }
+      if (!ex.exNumReps > 0) {
+        errorList.exnumrepserr = "Exercise reps must be 1 or more!";
+      } else {
+        delete errorList.exnumrepserr;
+      }
+    });
+    setFormErrors(errorList);
+
+    if (Object.keys(errorList).length !== 0) {
+      return false;
+    }
+    return true;
+  };
+
   const saveWorkoutPlanHandler = () => {
     const newPlan = {
       trainerId: loggedInUser._id,
@@ -75,8 +112,12 @@ const WorkoutPlanScreen = () => {
       ...workoutplan,
       exercises: exerciseList,
     };
-    CreateWorkoutPlan(dispatch, newPlan);
-    alert("Plan Added Successfully!");
+    const isValid = planValidation(newPlan);
+
+    if (isValid) {
+      CreateWorkoutPlan(dispatch, newPlan);
+      alert("Plan Added Successfully!");
+    }
   };
 
   return (
@@ -86,7 +127,7 @@ const WorkoutPlanScreen = () => {
         <h1 className="text-center mt-2">
           Workout Plans
           {/* If logged in as a trainer, allow to make a plan */}
-          {loggedInUser && loggedInUser.userRole === "trainer" && (
+          {loggedInUser && loggedInUser.userRole === "trainer" && !makePlan && (
             <span className="container mt-2">
               <button
                 className="btn btn-success"
@@ -94,7 +135,19 @@ const WorkoutPlanScreen = () => {
                   setMakePlan(!makePlan);
                 }}
               >
-                <i className="fa fa-plus me-2"></i>Create Workout Plan
+                <i className="fa fa-plus me-2"></i>Plan
+              </button>
+            </span>
+          )}
+          {loggedInUser && loggedInUser.userRole === "trainer" && makePlan && (
+            <span className="container mt-2">
+              <button
+                className="btn btn-danger"
+                onClick={() => {
+                  setMakePlan(!makePlan);
+                }}
+              >
+                <i className="fa fa-minus me-2"></i>Plan
               </button>
             </span>
           )}
@@ -125,6 +178,9 @@ const WorkoutPlanScreen = () => {
                 }}
               />
             </div>
+            {formErrors && formErrors.planNameErr && (
+              <p className="text-danger">{formErrors.planNameErr}</p>
+            )}
             <h4 className="text-center">Exercises</h4>
             {exerciseList.map((exercise, arrayIndex) => {
               return (
@@ -144,7 +200,9 @@ const WorkoutPlanScreen = () => {
                         exerciseInputHandler(e, arrayIndex);
                       }}
                     />
+                  </div>
 
+                  <div className="input-group mt-2 mb-2">
                     <label
                       className="form-label ms-2 me-2"
                       htmlFor="exNumSetsInput"
@@ -203,14 +261,23 @@ const WorkoutPlanScreen = () => {
                 </div>
               );
             })}
+            {formErrors && formErrors.exnameerr && (
+              <p className="text-danger">{formErrors.exnameerr}</p>
+            )}
+            {formErrors && formErrors.exsetserr && (
+              <p className="text-danger">{formErrors.exsetserr}</p>
+            )}
+            {formErrors && formErrors.exnumrepserr && (
+              <p className="text-danger">{formErrors.exnumrepserr}</p>
+            )}
           </div>
         )}
         <hr className="ms-4 me-4"></hr>
         {/* All workout plans can be seen by anyone */}
-        <div className="container mt-2">
+        <div className="container mt-2 col-md-8">
           {allWorkoutPlans &&
             allWorkoutPlans.map((plan) => {
-              return <WorkoutPlanCard workout={plan} />;
+              return <WorkoutPlanCard workout={plan} key={plan._id} />;
             })}
         </div>
       </div>

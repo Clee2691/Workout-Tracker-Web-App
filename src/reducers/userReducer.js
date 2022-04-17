@@ -18,6 +18,7 @@ const userReducer = (state = initialState, action) => {
       return action.insertedUser;
 
     case LOGOUTUSER:
+      localStorage.clear();
       return initialState;
 
     default:
