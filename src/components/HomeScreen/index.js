@@ -19,6 +19,7 @@ const HomeScreen = () => {
   useEffect(() => {
     GetUser(dispatch);
     GetRecentReviews(dispatch);
+    console.log(loggedInUser);
   }, [dispatch]);
 
   return (
