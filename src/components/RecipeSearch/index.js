@@ -13,7 +13,7 @@ const RecipeSearch = () => {
   return (
     <>
       <NavigationBar currScreen={"SEARCH"} />
-      <div className="container-fluid mt-2">
+      <div className="container mt-2 col-md-6">
         <h1 className="text-center mb-3">Search Recipes</h1>
         <div className="container col-md-6">
           <div className="input-group mt-2">
@@ -53,7 +53,7 @@ const RecipeSearch = () => {
           </span>
         </div>
       </div>
-      <footer className="text-center mb-2">
+      <footer className="text-center mb-2 mt-2">
         &copy; Calvin Lee 2022 -
         <Link to="/privacypol" className="text-decoration-none">
           <span className="ms-2">Privacy Policy</span>

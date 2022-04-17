@@ -10,7 +10,9 @@ import { CreateUserWorkout } from "../../actions/workout-actions";
 
 const WorkoutLog = () => {
   const dispatch = useDispatch();
-  const loggedInUser= useSelector(state => state.userReducer);
+  const loggedInUser = useSelector((state) => state.userReducer);
+
+  const [formErrors, setFormErrors] = useState({});
 
   useEffect(() => {
     GetUser(dispatch);
@@ -71,8 +73,38 @@ const WorkoutLog = () => {
 
   const removeBtnHandler = (index) => {
     const currSets = [...workoutSets];
-    currSets.splice(index, 1)
+    currSets.splice(index, 1);
     setWkSets(currSets);
+  };
+
+  const planValidation = (thePlan) => {
+    let errorList = { ...formErrors };
+
+    if (!thePlan.exerciseName) {
+      errorList.exNameErr = "Exercise must have a name!";
+    } else if (thePlan.exerciseName && formErrors.exNameErr) {
+      delete errorList.exNameErr;
+    }
+
+    //exercises need a name and sets/reps need to be more than 0
+    thePlan.sets.forEach((ex) => {
+      if (!ex.weight > 0) {
+        errorList.exWeightError = "Must lift more than 0 lbs!";
+      } else {
+        delete errorList.exWeightError;
+      }
+      if (!ex.reps > 0) {
+        errorList.exnumrepserr = "Exercise reps must be 1 or more!";
+      } else {
+        delete errorList.exnumrepserr;
+      }
+    });
+    setFormErrors(errorList);
+
+    if (Object.keys(errorList).length !== 0) {
+      return false;
+    }
+    return true;
   };
 
   const saveWorkoutBtnHandler = () => {
@@ -81,8 +113,11 @@ const WorkoutLog = () => {
       ...wkoutInfo,
       sets: workoutSets,
     };
-    CreateUserWorkout(dispatch, combInfo);
-    alert("Workout Successfully Added!");
+    const isValid = planValidation(combInfo);
+    if (isValid) {
+      CreateUserWorkout(dispatch, combInfo);
+      alert("Workout Successfully Added!");
+    }
   };
 
   if (!loggedInUser) {
@@ -107,6 +142,9 @@ const WorkoutLog = () => {
                 onChange={nameDateInputHandler}
               />
             </div>
+            {formErrors && formErrors.exNameErr && (
+              <p className="text-danger">{formErrors.exNameErr}</p>
+            )}
             <div className="input-group mb-2">
               <label className="form-label me-2" htmlFor="date">
                 Date
@@ -114,6 +152,8 @@ const WorkoutLog = () => {
               <input
                 name="exDate"
                 type="date"
+                min="1991-01-01"
+                max={dateStr}
                 className="form-control rounded-corner"
                 defaultValue={wkoutInfo.exDate}
                 onChange={nameDateInputHandler}
@@ -187,6 +227,12 @@ const WorkoutLog = () => {
                 </div>
               );
             })}
+            {formErrors && formErrors.exWeightError && (
+              <p className="text-danger">{formErrors.exWeightError}</p>
+            )}
+            {formErrors && formErrors.exnumrepserr && (
+              <p className="text-danger">{formErrors.exnumrepserr}</p>
+            )}
 
             <div className="d-grid">
               <button

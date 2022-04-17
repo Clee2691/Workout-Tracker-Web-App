@@ -24,10 +24,10 @@ const ItemDetails = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const [formErrors, setFormErrors] = useState({});
+
   const [newReview, setNewReview] = useState({
     mealId: id,
-    userId: loggedInUser._id,
-    userName: loggedInUser.username,
   });
 
   const mergeIngredientList = function () {
@@ -57,7 +57,11 @@ const ItemDetails = () => {
     });
 
     const mapped = ingredientArray.map((ingred, meas) => {
-      return { ingredient: ingred, measure: ingredientMeasureArray[meas] };
+      return {
+        _id: Math.random().toString(20).substring(2, 18),
+        ingredient: ingred,
+        measure: ingredientMeasureArray[meas],
+      };
     });
 
     return mapped;
@@ -78,17 +82,51 @@ const ItemDetails = () => {
     setNewReview(theReview);
   };
 
+  const revValidate = (review) => {
+    let errorList = { ...formErrors };
+
+    if (!review.revString) {
+      errorList.revStringErr = "You must enter text for the review!";
+    } else if (review.revString && formErrors.revStringErr) {
+      delete errorList.revStringErr;
+    }
+
+    if (review.starRating < 0 || review.starRating > 5) {
+      errorList.rateError = "You can only rate between 0 and 5!";
+    } else if (
+      review.starRating >= 0 &&
+      review.starRating < 6 &&
+      formErrors.rateError
+    ) {
+      delete errorList.rateError;
+    }
+
+    setFormErrors(errorList);
+
+    if (Object.keys(errorList).length !== 0) {
+      return false;
+    }
+    return true;
+  };
+
   const sendReview = () => {
+    const user = JSON.parse(localStorage.getItem("user"));
     const finalReview = {
       ...newReview,
+      userId: user._id,
+      userName: user.username,
       mealPic: selectedItem.strMealThumb,
       mealName: selectedItem.strMeal,
     };
-    CreateMealReview(dispatch, finalReview).catch((e) => {
-      if (e.response.status === 403) {
-        alert("You can only review a recipe once. Edit your review instead.");
-      }
-    });
+    const isValid = revValidate(finalReview);
+    if (isValid) {
+      CreateMealReview(dispatch, finalReview).catch((e) => {
+        if (e.response.status === 403) {
+          alert("You can only review a recipe once. Edit your review instead.");
+        }
+      });
+      alert("Created Review!");
+    }
   };
 
   const deleteCurrReview = (revId) => {
@@ -99,6 +137,9 @@ const ItemDetails = () => {
     getItemById();
     GetMealReviews(dispatch, id);
     GetUser(dispatch);
+    if (loggedInUser._id) {
+      localStorage.setItem("user", JSON.stringify(loggedInUser));
+    }
   }, [dispatch]);
 
   if (Object.keys(selectedItem).length === 0) {
@@ -143,7 +184,7 @@ const ItemDetails = () => {
                 <tbody>
                   {mappedIngredients.map((ingredient) => {
                     return (
-                      <tr>
+                      <tr key={ingredient._id}>
                         <td>{ingredient.ingredient}</td>
                         <td>{ingredient.measure}</td>
                       </tr>
@@ -174,7 +215,7 @@ const ItemDetails = () => {
             {recipeReviews.length > 0 &&
               recipeReviews.map((review) => {
                 return (
-                  <div className="border border-light p-2 mb-2">
+                  <div className="border border-light p-2 mb-2" key={review._id}>
                     <Link to={`/profile/${review.userId}`}>
                       {review.userName}
                     </Link>
@@ -206,12 +247,12 @@ const ItemDetails = () => {
                 <p className="lead">Add Your Own Review: </p>
                 <div className="input-group mt-2 mb-2">
                   <label className="form-label me-2" htmlFor="starInput">
-                    Number of Stars
+                    Rating
                   </label>
                   <input
                     name="starRating"
                     type="number"
-                    className="form-control form-control-sm"
+                    className="form-control form-control-sm me-2"
                     defaultValue={0}
                     min="0"
                     max="5"
@@ -219,8 +260,11 @@ const ItemDetails = () => {
                     onChange={(e) => {
                       handleReviewInput(e);
                     }}
-                  />
+                  /> Out of 5
                 </div>
+                {formErrors && formErrors.rateError && (
+                  <p className="text-danger">{formErrors.rateError}</p>
+                )}
                 <textarea
                   name="revString"
                   className="form-control"
@@ -229,6 +273,9 @@ const ItemDetails = () => {
                     handleReviewInput(e);
                   }}
                 ></textarea>
+                {formErrors && formErrors.revStringErr && (
+                  <p className="text-danger">{formErrors.revStringErr}</p>
+                )}
                 <button className="btn btn-success mt-2" onClick={sendReview}>
                   Review
                 </button>

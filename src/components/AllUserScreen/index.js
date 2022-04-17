@@ -27,7 +27,7 @@ const AllUserScreen = () => {
   return (
     <>
       <NavigationBar currScreen={"USERS"} />
-      <div className="container">
+      <div className="container col-md-6">
         <h1 className="text-center mt-2">All Users</h1>
         <h4 className="mt-4 ms-2">
           Search for a User by Username:{" "}

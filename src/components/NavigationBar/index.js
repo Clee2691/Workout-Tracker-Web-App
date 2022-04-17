@@ -13,10 +13,13 @@ const NavigationBar = ({ currScreen }) => {
 
   useEffect(() => {
     GetUser(dispatch);
+    if (loggedInUser._id) {
+      localStorage.setItem("role", loggedInUser.userRole);
+      localStorage.setItem("uid", loggedInUser._id);
+    }
   }, [dispatch]);
 
   const clearUser = () => {
-    localStorage.clear();
     LogoutUser(dispatch);
     navigate("/login");
   };
@@ -127,7 +130,7 @@ const NavigationBar = ({ currScreen }) => {
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                FITNESS
+                PLANS
               </a>
               <ul
                 className="dropdown-menu"
@@ -166,30 +169,6 @@ const NavigationBar = ({ currScreen }) => {
                   }`}
                 >
                   WORKOUT LOG
-                </Link>
-              </li>
-            )}
-            {loggedInUser && loggedInUser.userRole === "trainer" && (
-              <li className="nav-item">
-                <Link
-                  to="/workoutplans"
-                  className={`nav-link ${
-                    currScreen === "WORKOUTPLAN" ? "active" : ""
-                  }`}
-                >
-                  WORKOUT PLANS
-                </Link>
-              </li>
-            )}
-            {loggedInUser && loggedInUser.userRole === "nutritionist" && (
-              <li className="nav-item">
-                <Link
-                  to="/mealplans"
-                  className={`nav-link ${
-                    currScreen === "MEALPLAN" ? "active" : ""
-                  }`}
-                >
-                  MEAL PLANS
                 </Link>
               </li>
             )}

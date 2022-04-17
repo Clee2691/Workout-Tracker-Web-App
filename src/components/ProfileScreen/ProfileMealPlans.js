@@ -38,8 +38,8 @@ const ProfileMealPlans = ({ userId }) => {
                     ></img>
                   </div>
                   <div className="col-md d-flex">
-                    <div className="card-body align-self-center text-center p-1">
-                      <h4 className="card-title">{mealPlan.name}</h4>
+                    <div className="card-body text-center p-1 mt-2">
+                      <h3 className="card-title">{mealPlan.name}</h3>
                       <div>
                         Plan created by:{" "}
                         <Link
@@ -49,6 +49,7 @@ const ProfileMealPlans = ({ userId }) => {
                           {mealPlan.nutritionistName}
                         </Link>
                       </div>
+                      <hr className="ms-5 me-5"></hr>
                       {mealPlan.foods.map((food) => {
                         return (
                           <p className="card-text" key={food._id}>
@@ -60,9 +61,8 @@ const ProfileMealPlans = ({ userId }) => {
                     </div>
                   </div>
                 </div>
-                {allMealPlans.nutritionistId ===
-                  localStorage.getItem("uid") && (
-                  <div className="card-footer d-flex justify-content-center bg-info">
+                {mealPlan.nutritionistId === localStorage.getItem("uid") && (
+                  <div className="card-footer d-flex justify-content-center bg-secondary">
                     <button
                       className="btn btn-danger"
                       onClick={() => {

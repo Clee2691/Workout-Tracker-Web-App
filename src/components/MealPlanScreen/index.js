@@ -11,13 +11,13 @@ import {
   GetAllMealPlans,
 } from "../../actions/mealPlan-actions";
 
-
 const MealPlanScreen = () => {
   const dispatch = useDispatch();
   const loggedInUser = useSelector((state) => state.userReducer);
 
   const allMealPlans = useSelector((state) => state.mealPlanReducer);
 
+  const [formErrors, setFormErrors] = useState({});
   const [mealPlan, setMealPlan] = useState();
   const [foodList, setFoodList] = useState([
     {
@@ -68,6 +68,42 @@ const MealPlanScreen = () => {
     setFoodList(filteredArray);
   };
 
+  const planValidation = (thePlan) => {
+    let errorList = { ...formErrors };
+
+    if (!thePlan.name) {
+      errorList.planNameErr = "Plan must have a name!";
+    } else if (thePlan.name && formErrors.planNameErr) {
+      delete errorList.planNameErr;
+    }
+
+    //exercises need a name and sets/reps need to be more than 0
+    thePlan.foods.forEach((food) => {
+      if (!food.foodName) {
+        errorList.foodNameErr = "Food must have a name!";
+      } else {
+        delete errorList.foodNameErr;
+      }
+
+      if (!food.portionSize > 0) {
+        errorList.psizeError = "Portion size must be 1 or more!";
+      } else {
+        delete errorList.psizeError;
+      }
+      if (!food.unitOfMeasure) {
+        errorList.uomError = "Must have a unit of measure!";
+      } else {
+        delete errorList.uomError;
+      }
+    });
+    setFormErrors(errorList);
+
+    if (Object.keys(errorList).length !== 0) {
+      return false;
+    }
+    return true;
+  };
+
   const saveMealPlanHandler = () => {
     const newPlan = {
       nutritionistId: loggedInUser._id,
@@ -75,8 +111,12 @@ const MealPlanScreen = () => {
       ...mealPlan,
       foods: foodList,
     };
-    CreateMealPlan(dispatch, newPlan);
-    alert("Plan Added Successfully!");
+
+    const isValid = planValidation(newPlan);
+    if (isValid) {
+      CreateMealPlan(dispatch, newPlan);
+      alert("Plan Added Successfully!");
+    }
   };
 
   return (
@@ -86,18 +126,34 @@ const MealPlanScreen = () => {
         <h1 className="text-center mt-2">
           Meal Plans
           {/* If logged in as a trainer, allow to make a plan */}
-          {loggedInUser && loggedInUser.userRole === "nutritionist" && (
-            <span className="container mt-2">
-              <button
-                className="btn btn-success"
-                onClick={() => {
-                  setMakePlan(!makePlan);
-                }}
-              >
-                <i className="fa fa-plus me-2"></i>Create Meal Plan
-              </button>
-            </span>
-          )}
+          {loggedInUser &&
+            loggedInUser.userRole === "nutritionist" &&
+            !makePlan && (
+              <span className="container mt-2">
+                <button
+                  className="btn btn-success"
+                  onClick={() => {
+                    setMakePlan(!makePlan);
+                  }}
+                >
+                  <i className="fa fa-plus me-2"></i>Plan
+                </button>
+              </span>
+            )}
+          {loggedInUser &&
+            loggedInUser.userRole === "nutritionist" &&
+            makePlan && (
+              <span className="container mt-2">
+                <button
+                  className="btn btn-danger"
+                  onClick={() => {
+                    setMakePlan(!makePlan);
+                  }}
+                >
+                  <i className="fa fa-minus me-2"></i>Plan
+                </button>
+              </span>
+            )}
         </h1>
 
         {makePlan && loggedInUser.userRole === "nutritionist" && (
@@ -122,6 +178,9 @@ const MealPlanScreen = () => {
                 }}
               />
             </div>
+            {formErrors && formErrors.planNameErr && (
+              <p className="text-danger">{formErrors.planNameErr}</p>
+            )}
             <h4 className="text-center">Foods</h4>
             {foodList.map((food, arrayIndex) => {
               return (
@@ -198,15 +257,28 @@ const MealPlanScreen = () => {
                 </div>
               );
             })}
+            {formErrors && formErrors.foodNameErr && (
+              <p className="text-danger">{formErrors.foodNameErr}</p>
+            )}
+            {formErrors && formErrors.psizeError && (
+              <p className="text-danger">{formErrors.psizeError}</p>
+            )}
+            {formErrors && formErrors.uomError && (
+              <p className="text-danger">{formErrors.uomError}</p>
+            )}
           </div>
         )}
 
-        {/* All workout plans can be seen by anyone */}
+        {/* All meal plans can be seen by anyone */}
         <hr className="ms-4 me-4"></hr>
         <div className="container mt-2">
           {allMealPlans &&
             allMealPlans.map((plan) => {
-              return <MealPlanCard meal={plan} />;
+              return (
+                <div key={plan._id}>
+                  <MealPlanCard meal={plan} />
+                </div>
+              );
             })}
         </div>
       </div>

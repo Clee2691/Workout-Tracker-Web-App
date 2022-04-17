@@ -33,13 +33,13 @@ const ProfileWorkoutPlans = ({ userId }) => {
                 <div className="row g-0">
                   <div className="col-md-5 col-lg-4 d-flex align-self-center">
                     <img
-                      className="img-fluid rounded-circle p-2"
+                      className="img-fluid rounded-circle p-2 ms-auto me-auto"
                       src="../images/workout/workoutplan.jpg"
                     ></img>
                   </div>
                   <div className="col-md d-flex">
-                    <div className="card-body align-self-center text-center p-1">
-                      <h4 className="card-title">{wkoutPlan.name}</h4>
+                    <div className="card-body text-center p-1">
+                      <h3 className="card-title mt-2">{wkoutPlan.name}</h3>
                       <div>
                         Plan created by:{" "}
                         <Link
@@ -49,6 +49,7 @@ const ProfileWorkoutPlans = ({ userId }) => {
                           {wkoutPlan.trainerName}
                         </Link>
                       </div>
+                      <hr className="ms-5 me-5"></hr>
                       {wkoutPlan.exercises.map((exercise) => {
                         return (
                           <p className="card-text" key={exercise._id}>
