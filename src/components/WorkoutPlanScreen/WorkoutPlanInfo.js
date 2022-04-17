@@ -1,4 +1,4 @@
-
+import { Link } from "react-router-dom";
 const WorkoutPlanCard = ({workout}) => {
     return (
       <div key={workout._id}>
@@ -15,9 +15,9 @@ const WorkoutPlanCard = ({workout}) => {
                 <h2 className="card-title">{workout.name}</h2>
                 <div>
                   Plan created by:{" "}
-                  <a href={`/profile/${workout.trainerId}`} className="text-decoration-none text-dark">
+                  <Link to={`/profile/${workout.trainerId}`} className="text-decoration-none text-dark">
                     {workout.trainerName}
-                  </a>
+                  </Link>
                 </div>
                 <hr className="ms-4 me-4"></hr>
                 {workout.exercises.map((exercise) => {

@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
 import {
@@ -39,6 +40,15 @@ const ProfileWorkoutPlans = ({ userId }) => {
                   <div className="col-md d-flex">
                     <div className="card-body align-self-center text-center p-1">
                       <h4 className="card-title">{wkoutPlan.name}</h4>
+                      <div>
+                        Plan created by:{" "}
+                        <Link
+                          to={`/profile/${wkoutPlan.trainerId}`}
+                          className="text-decoration-none text-dark"
+                        >
+                          {wkoutPlan.trainerName}
+                        </Link>
+                      </div>
                       {wkoutPlan.exercises.map((exercise) => {
                         return (
                           <p className="card-text" key={exercise._id}>

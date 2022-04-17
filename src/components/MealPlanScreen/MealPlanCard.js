@@ -1,3 +1,5 @@
+import {Link} from 'react-router-dom';
+
 const MealPlanCard = ({ meal }) => {
   return (
     <div key={meal._id}>
@@ -14,12 +16,12 @@ const MealPlanCard = ({ meal }) => {
               <h2 className="card-title">{meal.name}</h2>
               <div>
                 Plan created by:{" "}
-                <a
-                  href={`/profile/${meal.nutritionistId}`}
+                <Link
+                  to={`/profile/${meal.nutritionistId}`}
                   className="text-decoration-none text-dark"
                 >
                   {meal.nutritionistName}
-                </a>
+                </Link>
               </div>
               <hr className="ms-4 me-4"></hr>
               {meal.foods.map((food) => {
