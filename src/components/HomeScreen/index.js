@@ -25,7 +25,8 @@ const HomeScreen = () => {
   }, [dispatch]);
 
   const getUser = () => {
-    console.log(useSelector((state) => state.userReducer));
+    const user = useSelector((state) => state.userReducer);
+    console.log(user);
   }
 
   return (
