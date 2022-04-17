@@ -87,7 +87,7 @@ const PublicProf = () => {
 
   useEffect(() => {
     getInitialInfo();
-  }, []);
+  }, [uid]);
 
   const followBtnHandler = (role) => {
     if (role === "trainer") {
@@ -239,9 +239,9 @@ const PublicProf = () => {
                     allRelations.map((oneClient) => {
                       return (
                         <div key={oneClient._id}>
-                          <a href={`/profile/${oneClient.clientId}`}>
+                          <Link to={`/profile/${oneClient.clientId}`}>
                             {oneClient.clientUserName}
-                          </a>
+                          </Link>
                         </div>
                       );
                     })}
@@ -259,12 +259,11 @@ const PublicProf = () => {
                     clientTrainers &&
                     clientTrainers.map((trainer) => {
                       return (
-                        <a
-                          href={`/profile/${trainer.trainerId}`}
-                          key={trainer._id}
-                        >
-                          {trainer.trainerUserName}
-                        </a>
+                        <div key={trainer._id}>
+                          <Link to={`/profile/${trainer.trainerId}`}>
+                            {trainer.trainerUserName}
+                          </Link>
+                        </div>
                       );
                     })}
 
@@ -278,12 +277,11 @@ const PublicProf = () => {
                     clientNutritionists &&
                     clientNutritionists.map((nutritionist) => {
                       return (
-                        <a
-                          href={`/profile/${nutritionist.nutritionistId}`}
-                          key={nutritionist._id}
-                        >
-                          {nutritionist.nutritionistUserName}
-                        </a>
+                        <div key={nutritionist._id}>
+                          <Link to={`/profile/${nutritionist.nutritionistId}`}>
+                            {nutritionist.nutritionistUserName}
+                          </Link>
+                        </div>
                       );
                     })}
                   {currUser.userRole === "client" &&
@@ -330,7 +328,10 @@ const PublicProf = () => {
           </div>
         )}
         <footer className="text-center mb-2">
-          &copy; Calvin Lee 2022 - <a href="/privacypol">Privacy Policy</a>
+          &copy; Calvin Lee 2022 -
+          <Link to="/privacypol" className="text-decoration-none">
+            <span className="ms-2">Privacy Policy</span>
+          </Link>
         </footer>
       </>
     );

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 import NavigationBar from "../NavigationBar";
 import MealPlanCard from "./MealPlanCard";
@@ -210,7 +211,10 @@ const MealPlanScreen = () => {
         </div>
       </div>
       <footer className="text-center mb-2">
-        &copy; Calvin Lee 2022 - <a href="/privacypol">Privacy Policy</a>
+        &copy; Calvin Lee 2022 -
+        <Link to="/privacypol" className="text-decoration-none">
+          <span className="ms-2">Privacy Policy</span>
+        </Link>
       </footer>
     </>
   );

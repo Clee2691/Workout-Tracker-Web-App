@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import NavigationBar from "../NavigationBar";
@@ -198,7 +199,10 @@ const WorkoutLog = () => {
           </div>
         </div>
         <footer className="text-center mb-2">
-          &copy; Calvin Lee 2022 - <a href="/privacypol">Privacy Policy</a>
+          &copy; Calvin Lee 2022 -
+          <Link to="/privacypol" className="text-decoration-none">
+            <span className="ms-2">Privacy Policy</span>
+          </Link>
         </footer>
       </>
     );
