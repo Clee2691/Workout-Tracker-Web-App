@@ -17,17 +17,14 @@ const HomeScreen = () => {
   const loggedInUser = useSelector((state) => state.userReducer);
   const recentReviews = useSelector((state) => state.reviewReducer);
 
-  useEffect(() => {
-    GetUser(dispatch).then(() => {
-      console.log(loggedInUser);
-    });
-    //GetRecentReviews(dispatch);
-  }, [dispatch]);
+  const getInitialInfo = async () => {
+    await GetUser(dispatch);
+    await GetRecentReviews(dispatch);
+  };
 
-  const getUser = () => {
-    const user = useSelector((state) => state.userReducer);
-    console.log(user);
-  }
+  useEffect(() => {
+    getInitialInfo();
+  }, [dispatch]);
 
   return (
     <>
@@ -42,7 +39,6 @@ const HomeScreen = () => {
             <h3 className="subtitle-heading text-center">
               Log in or sign-up to access all features!
             </h3>
-            <button onClick={getUser}>USer</button>
           </div>
 
           {/* Not logged in will show recipe reviews from users */}
