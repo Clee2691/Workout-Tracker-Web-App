@@ -234,7 +234,8 @@ const PublicProf = () => {
                   {/* Has clients */}
                   {(currUser.userRole === "trainer" ||
                     currUser.userRole === "nutritionist") &&
-                    allRelations && allRelations.length > 0 &&
+                    allRelations &&
+                    allRelations.length > 0 &&
                     allRelations.map((oneClient) => {
                       return (
                         <div key={oneClient._id}>
@@ -328,6 +329,9 @@ const PublicProf = () => {
             </div>
           </div>
         )}
+        <footer className="text-center mb-2">
+          &copy; Calvin Lee 2022 - <a href="/privacypol">Privacy Policy</a>
+        </footer>
       </>
     );
   } else if (localStorage.getItem("uid") === uid) {

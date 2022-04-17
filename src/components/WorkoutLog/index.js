@@ -119,7 +119,6 @@ const WorkoutLog = () => {
               />
             </div>
             {workoutSets.map((aSet, arrayIndex) => {
-
               return (
                 <div key={aSet.setId}>
                   <div className="input-group mb-2">
@@ -198,6 +197,9 @@ const WorkoutLog = () => {
             </div>
           </div>
         </div>
+        <footer className="text-center mb-2">
+          &copy; Calvin Lee 2022 - <a href="/privacypol">Privacy Policy</a>
+        </footer>
       </>
     );
   }

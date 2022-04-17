@@ -45,11 +45,12 @@ const AllUserScreen = () => {
           allUsers
             .filter((user) => user.username.includes(searchFilter))
             .map((user) => {
-              return (
-                <UserCard user={user} key={user._id}/>
-              );
+              return <UserCard user={user} key={user._id} />;
             })}
       </div>
+      <footer className="text-center mb-2">
+        &copy; Calvin Lee 2022 - <a href="/privacypol">Privacy Policy</a>
+      </footer>
     </>
   );
 };

@@ -21,6 +21,7 @@ import PublicProf from "./components/PublicUserScreen";
 import WorkoutPlanScreen from "./components/WorkoutPlanScreen";
 import WorkoutLog from "./components/WorkoutLog";
 import MealPlanScreen from "./components/MealPlanScreen";
+import PrivacyPolicy from "./components/PrivacyPolicy";
 
 // Reducer
 import searchPageReducer from "./reducers/searchReducer";
@@ -64,6 +65,8 @@ function App() {
           <Route path="/workoutplans" element={<WorkoutPlanScreen />} />
 
           <Route path="/mealplans" element={<MealPlanScreen />} />
+
+          <Route path="/privacypol" element={<PrivacyPolicy />} />
         </Routes>
       </BrowserRouter>
     </Provider>
