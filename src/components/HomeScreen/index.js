@@ -26,7 +26,7 @@ const HomeScreen = () => {
     <>
       <NavigationBar currScreen={"HOME"} />
       {!loggedInUser && (
-        <>
+        <> {loggedInUser.username}
           <div className="banner-logo">
             <div className="background-banner" />
             <h1 className="home-heading text-center">
