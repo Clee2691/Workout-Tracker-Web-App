@@ -194,9 +194,9 @@ const NavigationBar = ({ currScreen }) => {
                 src="../images/avatars/maleprof2.jpg"
                 width="48px"
               ></img>
-              {/* <button className="btn btn-danger ms-2 me-2" onClick={clearUser}>
+              <button className="btn btn-danger ms-2 me-2" onClick={clearUser}>
                 Logout
-              </button> */}
+              </button>
             </div>
           )}
         </div>

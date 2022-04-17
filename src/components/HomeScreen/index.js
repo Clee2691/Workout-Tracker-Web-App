@@ -22,11 +22,15 @@ const HomeScreen = () => {
     console.log(loggedInUser);
   }, [dispatch]);
 
+  const getUser = () => {
+    console.log(loggedInUser);
+  }
+
   return (
     <>
       <NavigationBar currScreen={"HOME"} />
       {!loggedInUser && (
-        <> {loggedInUser.username}
+        <>
           <div className="banner-logo">
             <div className="background-banner" />
             <h1 className="home-heading text-center">
@@ -35,6 +39,7 @@ const HomeScreen = () => {
             <h3 className="subtitle-heading text-center">
               Log in or sign-up to access all features!
             </h3>
+            <button onClick={getUser}>USer</button>
           </div>
 
           {/* Not logged in will show recipe reviews from users */}
