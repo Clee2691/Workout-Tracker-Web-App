@@ -226,7 +226,7 @@ const ProfileScreen = () => {
                       </button>
                     </Link>
                   </div>
-                  <ProfileWorkoutPlans />
+                  <ProfileWorkoutPlans userId={localStorage.getItem("uid")} />
                 </>
               )}
               {loggedInUser.userRole === "nutritionist" && (
@@ -240,7 +240,7 @@ const ProfileScreen = () => {
                       </button>
                     </Link>
                   </div>
-                  <ProfileMealPlans />
+                  <ProfileMealPlans userId={localStorage.getItem("uid")} />
                 </>
               )}
 

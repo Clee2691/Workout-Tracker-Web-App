@@ -172,6 +172,8 @@ const EditProfile = ({ isEdit }) => {
                   loggedInUser.sensitiveInfo &&
                   loggedInUser.sensitiveInfo.dateOfBirth
                 }
+                min="1900-01-01"
+                max="2100-12-31"
                 onChange={(e) => {
                   inputChangeHandler(e);
                 }}
