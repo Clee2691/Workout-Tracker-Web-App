@@ -3,13 +3,17 @@ import { format, parseISO } from "date-fns";
 
 const UserCard = ({ user }) => {
   return (
-    <Link to={`/profile/${user._id}`} className="text-decoration-none" key={user._id}>
+    <Link
+      to={`/profile/${user._id}`}
+      className="text-decoration-none"
+      key={user._id}
+    >
       <div className="card mb-2 border ms-2 me-2 mt-3">
         <div className="row g-0">
           <div className="col-md-5 col-lg-4 d-flex align-self-center">
             <img
               className="img-fluid rounded-circle p-2"
-              src="../images/avatars/maleprof2.jpg"
+              src={user.userProfImgLink}
             ></img>
           </div>
           <div className="col-md d-flex">

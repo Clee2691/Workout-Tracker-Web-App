@@ -63,7 +63,7 @@ const MealPlanScreen = () => {
     const currFoodList = [...foodList];
     const selectedFood = currFoodList[index];
     const filteredArray = currFoodList.filter(
-      (food) => food.foodId !== selectedFood.exerciseId
+      (food) => food.foodId !== selectedFood.foodId
     );
     setFoodList(filteredArray);
   };
