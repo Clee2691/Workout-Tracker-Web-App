@@ -189,11 +189,6 @@ const NavigationBar = ({ currScreen }) => {
               <h4 className="mb-0 align-self-center me-1">
                 Welcome {loggedInUser.username}
               </h4>
-              <img
-                className="img-fluid rounded-circle"
-                src="../images/avatars/maleprof2.jpg"
-                width="48px"
-              ></img>
               <button className="btn btn-danger ms-2 me-2" onClick={clearUser}>
                 Logout
               </button>
