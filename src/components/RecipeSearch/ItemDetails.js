@@ -166,7 +166,7 @@ const ItemDetails = () => {
 
           <h1 className="text-center">{selectedItem.strMeal}</h1>
           <img
-            className="rounded mx-auto d-block w-50"
+            className="rounded mx-auto d-block w-25"
             src={selectedItem.strMealThumb}
           ></img>
 
@@ -215,7 +215,10 @@ const ItemDetails = () => {
             {recipeReviews.length > 0 &&
               recipeReviews.map((review) => {
                 return (
-                  <div className="border border-light p-2 mb-2" key={review._id}>
+                  <div
+                    className="border border-light p-2 mb-2 col-md-8 ms-auto me-auto"
+                    key={review._id}
+                  >
                     <Link to={`/profile/${review.userId}`}>
                       {review.userName}
                     </Link>
@@ -260,7 +263,8 @@ const ItemDetails = () => {
                     onChange={(e) => {
                       handleReviewInput(e);
                     }}
-                  /> Out of 5
+                  />{" "}
+                  Out of 5
                 </div>
                 {formErrors && formErrors.rateError && (
                   <p className="text-danger">{formErrors.rateError}</p>
@@ -283,7 +287,6 @@ const ItemDetails = () => {
             )}
             {!loggedInUser && (
               <div className="container col-8 h4 text-center mb-3">
-                
                 <Link className="text-decoration-none" to="/login">
                   Log In
                 </Link>{" "}

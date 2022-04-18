@@ -79,7 +79,7 @@ const ProfileScreen = () => {
               <div className="card bg-transparent border mb-4">
                 <img
                   className="rounded-circle p-3 img-fluid"
-                  src="../images/avatars/profilemale1.jpg"
+                  src={loggedInUser.userProfImgLink}
                 ></img>
                 <div className="card-body">
                   <h3 className="card-title text-center">

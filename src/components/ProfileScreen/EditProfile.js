@@ -16,6 +16,7 @@ const EditProfile = ({ isEdit }) => {
     _id: loggedInUser._id,
     sensitiveInfo: loggedInUser.sensitiveInfo,
     userStats: loggedInUser.userStats,
+    userProfImgLink: loggedInUser.userProfImgLink,
   });
 
   useEffect(() => {
@@ -44,6 +45,13 @@ const EditProfile = ({ isEdit }) => {
     setNewUserData(newUser);
   };
 
+  const profImageChange = () => {
+    const userpic = prompt("Enter URL (Must be hosted externally eg. Imgur):");
+    if (userpic) {
+      setNewUserData({ ...newUserData, userProfImgLink: userpic });
+    }
+  }
+
   const cancelEditbtn = () => {
     setEditing(false);
   };
@@ -65,9 +73,12 @@ const EditProfile = ({ isEdit }) => {
           <div className="position-relative">
             <img
               className="img-fluid rounded-circle ms-auto me-auto avatar-pic"
-              src="../images/avatars/profilemale1.jpg"
+              src={newUserData.userProfImgLink}
             />
-            <i className="fa-solid fa-camera position-absolute top-50 start-50 translate-middle fs-1"></i>
+            <i
+              className="fa-solid fa-camera position-absolute top-50 start-50 translate-middle fs-1"
+              onClick={profImageChange}
+            ></i>
           </div>
 
           <div className="mt-2 mb-2">
