@@ -283,13 +283,14 @@ const ItemDetails = () => {
             )}
             {!loggedInUser && (
               <div className="container col-8 h4 text-center mb-3">
-                <a className="text-decoration-none" href="/login">
+                
+                <Link className="text-decoration-none" to="/login">
                   Log In
-                </a>{" "}
+                </Link>{" "}
                 or{" "}
-                <a className="text-decoration-none" href="/register">
+                <Link className="text-decoration-none" to="/register">
                   Register
-                </a>{" "}
+                </Link>{" "}
                 to add your own review!
               </div>
             )}
