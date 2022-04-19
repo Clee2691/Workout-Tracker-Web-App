@@ -148,7 +148,7 @@ const PublicProf = () => {
               <div className="card bg-transparent border">
                 <img
                   className="rounded-circle p-3 img-fluid"
-                  src={loggedInUser.userProfImgLink}
+                  src={currUser.userProfImgLink}
                 ></img>
                 <div className="card-body">
                   <h3 className="card-title text-center">
