@@ -75,7 +75,7 @@ const ProfileScreen = () => {
           <NavigationBar currScreen={"PROFILE"} />
           <div className="container row mt-4 ms-auto me-auto">
             {/* User profile card on left */}
-            <div className="col-sm-4 col-lg-4">
+            <div className="col-sm-5 col-lg-4">
               <div className="card bg-transparent border mb-4">
                 <img
                   className="rounded-circle p-3 img-fluid"

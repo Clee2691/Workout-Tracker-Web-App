@@ -13,9 +13,9 @@ const RecipeSearch = () => {
   return (
     <>
       <NavigationBar currScreen={"SEARCH"} />
-      <div className="container mt-2 col-md-6">
+      <div className="container mt-2 col-md-8">
         <h1 className="text-center mb-3">Search Recipes</h1>
-        <div className="container col-md-6">
+        <div className="container col-lg-8 col-sm-10">
           <div className="input-group mt-2">
             <label
               className="input-group-text bg-transparent border border-secondary"

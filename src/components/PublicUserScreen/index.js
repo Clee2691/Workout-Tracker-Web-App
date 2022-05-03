@@ -144,7 +144,7 @@ const PublicProf = () => {
         <NavigationBar />
         {currUser && (
           <div className="container row mt-4 ms-auto me-auto mb-2">
-            <div className="col-sm-4 col-lg-4">
+            <div className="col-sm-5 col-lg-4">
               <div className="card bg-transparent border">
                 <img
                   className="rounded-circle p-3 img-fluid"

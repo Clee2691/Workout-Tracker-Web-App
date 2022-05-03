@@ -22,7 +22,7 @@ const AllRecipeReviewScreen = () => {
   return (
     <>
       <NavigationBar currScreen={"RECIPEREVS"} />
-      <div className="container col-md-6 mt-2">
+      <div className="container col-md-10 col-lg-8 mt-2">
         <h1 className="text-center mb-2">All Recipe Reviews</h1>
         <div className="input-group mb-2 mt-2">
           <label className="input-label me-2">Search Recipe Name:</label>
