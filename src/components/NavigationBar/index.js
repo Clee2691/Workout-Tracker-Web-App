@@ -25,7 +25,7 @@ const NavigationBar = ({ currScreen }) => {
   };
 
   return (
-    <nav className="navbar navbar-expand-md navbar-dark bg-primary">
+    <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
       <div className="container-fluid ms-2 me-2">
         <Link to="/" className="navbar-brand">
           SwoleMate

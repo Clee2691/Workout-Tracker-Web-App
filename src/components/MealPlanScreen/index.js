@@ -122,7 +122,7 @@ const MealPlanScreen = () => {
   return (
     <>
       <NavigationBar />
-      <div className="container col-md-8">
+      <div className="container col-md-10 col-lg-8">
         <h1 className="text-center mt-2">
           Meal Plans
           {/* If logged in as a trainer, allow to make a plan */}
@@ -157,7 +157,7 @@ const MealPlanScreen = () => {
         </h1>
 
         {makePlan && loggedInUser.userRole === "nutritionist" && (
-          <div className="col-md-8 ms-auto me-auto">
+          <div className="col-md-10 ms-auto me-auto">
             <div className="d-grid">
               <button className="btn btn-success" onClick={saveMealPlanHandler}>
                 Create Plan
@@ -271,7 +271,7 @@ const MealPlanScreen = () => {
 
         {/* All meal plans can be seen by anyone */}
         <hr className="ms-4 me-4"></hr>
-        <div className="container mt-2">
+        <div className="container mt-2 col-xl-10">
           {allMealPlans &&
             allMealPlans.map((plan) => {
               return (

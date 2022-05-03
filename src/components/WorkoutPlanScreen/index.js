@@ -123,7 +123,7 @@ const WorkoutPlanScreen = () => {
   return (
     <>
       <NavigationBar />
-      <div className="container col-md-8">
+      <div className="container col-md-10 col-lg-8">
         <h1 className="text-center mt-2">
           Workout Plans
           {/* If logged in as a trainer, allow to make a plan */}
@@ -154,7 +154,7 @@ const WorkoutPlanScreen = () => {
         </h1>
 
         {makePlan && loggedInUser.userRole === "trainer" && (
-          <div className="col-md-8 ms-auto me-auto">
+          <div className="col-md-10 ms-auto me-auto">
             <div className="d-grid">
               <button
                 className="btn btn-success"
@@ -274,7 +274,7 @@ const WorkoutPlanScreen = () => {
         )}
         <hr className="ms-4 me-4"></hr>
         {/* All workout plans can be seen by anyone */}
-        <div className="container mt-2 col-md-8">
+        <div className="container mt-2 col-xl-10">
           {allWorkoutPlans &&
             allWorkoutPlans.map((plan) => {
               return <WorkoutPlanCard workout={plan} key={plan._id} />;

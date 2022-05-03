@@ -37,7 +37,7 @@ const HomeScreen = () => {
           </div>
 
           {/* Not logged in will show recipe reviews from users */}
-          <div className="container col-md-6 mt-2 mb-4">
+          <div className="container col-md-10 col-lg-7 mt-2 mb-4">
             <h1 className="text-center mb-2">
               Latest Reviewed Recipes{" "}
               <span>
@@ -71,7 +71,7 @@ const HomeScreen = () => {
       )}
       {loggedInUser && loggedInUser.userRole === "client" && (
         <>
-          <div className="container mt-2 col-md-8 mb-2">
+          <div className="container mt-2 col-md-10 col-lg-7 mb-2">
             <h2 className="text-center">Your Recent Workouts</h2>
             <ProfileWorkouts userId={loggedInUser._id} />
           </div>
@@ -80,7 +80,7 @@ const HomeScreen = () => {
 
       {loggedInUser && loggedInUser.userRole === "trainer" && (
         <>
-          <div className="container mt-2 col-md-6 mb-2">
+          <div className="container mt-2 col-md-10 col-lg-7 mb-2">
             <h2 className="text-center">Your Workout Plans</h2>
             <div className="text-center">
               <Link to="/workoutplans">
@@ -96,7 +96,7 @@ const HomeScreen = () => {
 
       {loggedInUser && loggedInUser.userRole === "nutritionist" && (
         <>
-          <div className="container mt-2 col-md-6 mb-2">
+          <div className="container mt-2 col-md-10 col-lg-7 mb-2">
             <h2 className="text-center">Your Meal Plans</h2>
             <div className="text-center mb-2">
               <Link to="/mealplans">
